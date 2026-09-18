@@ -152,63 +152,120 @@
     }
 
     /* submit */
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      for(let i=0;i<panels.length;i++){
-        if(!validateStep(i)){ goto(i); showToast('Please complete the highlighted fields.'); return; }
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  // Validate all steps
+  for(let i = 0; i < panels.length; i++){
+    if(!validateStep(i)){
+      goto(i);
+      showToast('Please complete the highlighted fields.');
+      return;
+    }
+  }
+
+  btnSubmit.disabled = true;
+  btnSubmit.textContent = 'Submitting…';
+
+  // Collect form data
+  const features = $$('input[name="p-feature"]:checked')
+    .map(c => c.value);
+
+  const referenceWebsites = OSForms.value('p-reference')
+    .split(',')
+    .map(item => item.trim())
+    .filter(Boolean);
+
+  const payload = {
+    name: OSForms.value('p-name'),
+    email: OSForms.value('p-email'),
+    phone: OSForms.value('p-phone'),
+    company: OSForms.value('p-company'),
+
+    preferredContactMethod:
+      OSForms.value('p-contact') || 'Email',
+
+    projectType: OSForms.value('p-type'),
+
+    requirements:
+      OSForms.value('p-requirements'),
+
+    features: features,
+
+    referenceWebsites:
+      referenceWebsites,
+
+    budget:
+      OSForms.value('p-budget'),
+
+    deadline:
+      OSForms.value('p-deadline') || null,
+
+    notes:
+      OSForms.value('p-notes')
+  };
+
+  try {
+
+    // ========================================
+    // SEND DATA TO BACKEND
+    // ========================================
+
+    const response = await fetch(
+      'http://localhost:5000/api/inquiries',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(payload)
       }
-      btnSubmit.disabled = true; btnSubmit.textContent = 'Submitting…';
+    );
 
-      const clientId = 'client_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
-      const record = {
-        id: clientId,
-        name: OSForms.value('p-name'),
-        email: OSForms.value('p-email'),
-        phone: OSForms.value('p-phone'),
-        company: OSForms.value('p-company'),
-        projectType: OSForms.value('p-type'),
-        requirements: OSForms.value('p-requirements'),
-        features: $$('input[name="p-feature"]:checked').map(c => c.value),
-        reference: OSForms.value('p-reference'),
-        budget: OSForms.value('p-budget'),
-        deadline: OSForms.value('p-deadline'),
-        contactMethod: OSForms.value('p-contact'),
-        notes: OSForms.value('p-notes'),
-        fileNames: fileInput ? Array.from(fileInput.files).map(f => f.name) : [],
-        status:'Design', progress:15,
-        milestones:[
-          { name:'Design approval', amount:'On quote', paid:false },
-          { name:'Development', amount:'On quote', paid:false },
-          { name:'Final delivery', amount:'On quote', paid:false },
-        ],
-        submittedAt:new Date().toISOString(),
-      };
+    const result = await response.json();
 
-      /* INTEGRATION POINT: replace localStorage with your API / database */
-      try{
-        if(window.claude && window.claude.use){
-          try{
-            const dbApi = await window.claude.use('db');
-            await dbApi.doc('projects/' + clientId).set(record);
-          }catch(err){ /* db not available — local fallback below */ }
-        }
-        const local = JSON.parse(localStorage.getItem('os-projects') || '{}');
-        local[clientId] = record;
-        localStorage.setItem('os-projects', JSON.stringify(local));
-      }catch(err){ console.warn('Could not persist project', err); }
+    if(!response.ok || !result.success){
+      throw new Error(
+        result.message || 'Submission failed'
+      );
+    }
 
-      try{ localStorage.setItem('os-session', JSON.stringify({ name:record.name, email:record.email, role:'client' })); }catch(err){}
+    // ========================================
+    // SUCCESS
+    // ========================================
 
-      $('#startFormWrap').style.display = 'none';
-      $('#confirmWrap').style.display = 'block';
-      $('#confirmId').textContent = 'Reference: ' + clientId;
-      window.scrollTo({ top:0, behavior:'smooth' });
-      showToast('Request received — check your dashboard anytime.');
-      btnSubmit.disabled = false; btnSubmit.textContent = 'Submit project request';
+    $('#startFormWrap').style.display = 'none';
+    $('#confirmWrap').style.display = 'block';
+
+    $('#confirmId').textContent =
+      'Request ID: ' + result.inquiry.id;
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
     });
 
-    goto(0);
+    showToast(
+      'Request received — we will review it shortly.'
+    );
+
+  } catch(error) {
+
+    console.error('Submission error:', error);
+
+    showToast(
+      'Could not submit your request. Please try again.'
+    );
+
+  } finally {
+
+    btnSubmit.disabled = false;
+    btnSubmit.textContent = 'Submit project request';
+
   }
+});
 
   /* ============================================================
      DEMO AUTH — login / register / forgot
