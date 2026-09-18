@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start a Project — OFF-SCRIPT | Tell us what you're building</title>
+<meta name="description" content="Five quick steps: who you are, what you're building, what you need, budget and timeline. Get a fixed quote within one business day.">
+<meta property="og:title" content="Start a Project — OFF-SCRIPT">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div id="preloader" aria-hidden="true">
+  <div class="pre-top"><span>OFF-SCRIPT</span><span>EST. 2026</span></div>
+  <div class="pre-mid"><span class="status">Initialising</span> — loading experience</div>
+  <div class="pre-bottom">
+    <div class="pre-brand">OFF<span class="dim">—</span>SCRIPT</div>
+    <div class="pre-track"><div class="pre-fill"></div></div>
+    <div class="pre-count"><span>LOADING</span><b>0%</b></div>
+  </div>
+</div>
+
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><span class="logo-mark"></span>OFF<sup>—</sup>SCRIPT</a>
+    <div class="nav-links">
+      <a href="work.html">Work</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">Studio</a>
+      <a href="process.html">Process</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="contact.html">Contact</a>
+      <a href="start.html" class="nav-cta btn btn-sm btn-primary">Start a project</a>
+      <button class="theme-toggle" aria-label="Toggle color theme">◐</button>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-links">
+    <a href="work.html"><i>01</i> Work</a>
+    <a href="services.html"><i>02</i> Services</a>
+    <a href="about.html"><i>03</i> Studio</a>
+    <a href="process.html"><i>04</i> Process</a>
+    <a href="pricing.html"><i>05</i> Pricing</a>
+    <a href="contact.html"><i>06</i> Contact</a>
+  </div>
+  <div class="mobile-foot">
+    <a href="start.html" class="btn btn-primary">Start a project →</a>
+    <div class="socials"><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">GitHub</a></div>
+  </div>
+</div>
+
+<main id="main">
+<section class="page-hero" style="padding-bottom:50px;">
+  <div class="wrap">
+    <p class="kicker">Client onboarding</p>
+    <h1 class="split-words">Start your project.</h1>
+    <p class="lede">Five short steps. It takes most people five minutes — you'll get a considered reply within one business day.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+
+    <div id="startFormWrap">
+      <div class="steps-bar" aria-hidden="true">
+        <div class="step-dot current"><span>About you</span></div>
+        <div class="step-dot"><span>The project</span></div>
+        <div class="step-dot"><span>Features</span></div>
+        <div class="step-dot"><span>Budget</span></div>
+        <div class="step-dot"><span>Review</span></div>
+      </div>
+
+      <form class="form-shell" id="projectForm" novalidate>
+
+        <!-- STEP 1 — about you -->
+        <div class="step-panel active">
+          <h2 class="step-title">Tell us about yourself</h2>
+          <p class="step-sub">So we know who we're building for.</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="p-name">Full name <b>*</b></label>
+              <input type="text" id="p-name" autocomplete="name" required>
+              <div class="field-error">Please enter your full name.</div>
+            </div>
+            <div class="field">
+              <label for="p-email">Email <b>*</b></label>
+              <input type="email" id="p-email" autocomplete="email" required>
+              <div class="field-error">Please enter a valid email address.</div>
+            </div>
+            <div class="field">
+              <label for="p-phone">Phone number <b>*</b></label>
+              <input type="tel" id="p-phone" autocomplete="tel" required>
+              <div class="field-error">Please enter a phone number.</div>
+            </div>
+            <div class="field">
+              <label for="p-company">Company / brand name</label>
+              <input type="text" id="p-company" autocomplete="organization">
+            </div>
+            <div class="field full">
+              <label for="p-contact">Preferred contact method</label>
+              <select id="p-contact">
+                <option value="Email">Email</option>
+                <option value="Phone call">Phone call</option>
+                <option value="WhatsApp">WhatsApp</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 — the project -->
+        <div class="step-panel">
+          <h2 class="step-title">What are you building?</h2>
+          <p class="step-sub">The shape of the project guides everything else.</p>
+          <div class="field">
+            <label>Project type <b>*</b></label>
+            <div class="choice-cards">
+              <div class="choice-card" data-target="p-type" data-value="Business Website"><span class="ico">🏢</span>Business Website</div>
+              <div class="choice-card" data-target="p-type" data-value="E-Commerce"><span class="ico">🛍️</span>E-Commerce</div>
+              <div class="choice-card" data-target="p-type" data-value="Custom Web Application"><span class="ico">⚙️</span>Web Application</div>
+              <div class="choice-card" data-target="p-type" data-value="Landing Page"><span class="ico">🚀</span>Landing Page</div>
+              <div class="choice-card" data-target="p-type" data-value="Maintenance / Update"><span class="ico">🔧</span>Maintenance</div>
+              <div class="choice-card" data-target="p-type" data-value="Other"><span class="ico">✨</span>Something else</div>
+            </div>
+            <input type="hidden" id="p-type">
+            <div class="field-error">Please select a project type.</div>
+          </div>
+          <div class="field" style="margin-top:22px;">
+            <label for="p-requirements">Describe the project <b>*</b></label>
+            <textarea id="p-requirements" required placeholder="Pages, sections, must-haves, what the site needs to achieve..."></textarea>
+            <div class="field-error">Please describe what you need.</div>
+          </div>
+        </div>
+
+        <!-- STEP 3 — features & references -->
+        <div class="step-panel">
+          <h2 class="step-title">What do you need?</h2>
+          <p class="step-sub">Tick what applies — this sharpens the quote.</p>
+          <div class="form-grid">
+            <div class="field full">
+              <label>Features</label>
+              <div class="choice-cards" style="grid-template-columns:repeat(4,1fr);">
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="CMS" style="accent-color:var(--accent); margin-right:8px;">CMS</label>
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="Payments" style="accent-color:var(--accent); margin-right:8px;">Payments</label>
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="Blog" style="accent-color:var(--accent); margin-right:8px;">Blog</label>
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="Auth / accounts" style="accent-color:var(--accent); margin-right:8px;">Accounts</label>
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="Booking" style="accent-color:var(--accent); margin-right:8px;">Booking</label>
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="Multi-language" style="accent-color:var(--accent); margin-right:8px;">Multi-language</label>
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="Search" style="accent-color:var(--accent); margin-right:8px;">Search</label>
+                <label class="choice-card" style="cursor:pointer;"><input type="checkbox" name="p-feature" value="Analytics" style="accent-color:var(--accent); margin-right:8px;">Analytics</label>
+              </div>
+            </div>
+            <div class="field full">
+              <label for="p-reference">Reference websites</label>
+              <input type="text" id="p-reference" placeholder="Links you like, comma-separated">
+              <div class="field-hint">Even one example of "something like this" helps a lot.</div>
+            </div>
+            <div class="field full">
+              <label>Reference files (optional)</label>
+              <label class="file-drop" id="fileDrop" for="p-files">
+                Click or drag to attach briefs, logos or inspiration files
+                <input type="file" id="p-files" multiple>
+              </label>
+              <div class="file-list" id="fileList"></div>
+            </div>
+            <div class="field full">
+              <label for="p-notes">Additional notes</label>
+              <textarea id="p-notes" placeholder="Anything else we should know?"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 — budget & timeline -->
+        <div class="step-panel">
+          <h2 class="step-title">Budget &amp; timeline</h2>
+          <p class="step-sub">Honest ranges get honest scopes — a rough number is enough.</p>
+          <div class="form-grid">
+            <div class="field">
+              <label>Budget range <b>*</b></label>
+              <div class="choice-cards" style="grid-template-columns:1fr 1fr;">
+                <div class="choice-card" data-target="p-budget" data-value="Under ₹25,000">Under ₹25,000</div>
+                <div class="choice-card" data-target="p-budget" data-value="₹25,000 – ₹75,000">₹25k – ₹75k</div>
+                <div class="choice-card" data-target="p-budget" data-value="₹75,000 – ₹2,00,000">₹75k – ₹2L</div>
+                <div class="choice-card" data-target="p-budget" data-value="₹2,00,000+">₹2L+</div>
+              </div>
+              <input type="hidden" id="p-budget">
+              <div class="field-error">Please select a budget range.</div>
+            </div>
+            <div class="field">
+              <label for="p-deadline">Desired deadline</label>
+              <input type="date" id="p-deadline">
+              <div class="field-hint">Leave empty if you're flexible.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5 — review -->
+        <div class="step-panel">
+          <h2 class="step-title">Let's work together</h2>
+          <p class="step-sub">One last look before it comes to us.</p>
+          <div id="reviewList" style="border:1px solid var(--line); border-radius:var(--radius-m); padding:6px 20px; margin-bottom:22px;"></div>
+          <div class="field">
+            <label style="display:flex; gap:10px; align-items:flex-start; text-transform:none; letter-spacing:0; font-family:var(--font-body); font-size:.85rem;">
+              <input type="checkbox" id="p-consent" style="width:auto; margin-top:3px; accent-color:var(--accent);">
+              <span>I confirm the information above is accurate and I'm happy to be contacted about this project. <b>*</b></span>
+            </label>
+            <div class="field-error">Please confirm before submitting.</div>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn btn-ghost" id="stepBack" style="visibility:hidden;">← Back</button>
+          <button type="button" class="btn btn-primary" id="stepNext">Continue <span class="arr">→</span></button>
+          <button type="submit" class="btn btn-primary" id="projectSubmitBtn" style="display:none;">Submit project request</button>
+        </div>
+        <p class="field-hint" style="text-align:center; margin-top:14px;">Submitting creates your client record — on a live site you'd receive a secure sign-in link by email.</p>
+      </form>
+    </div>
+
+    <div id="confirmWrap" style="display:none;">
+      <div class="form-shell confirm-screen">
+        <div class="confirm-icon">✓</div>
+        <h3 style="font-size:1.6rem; margin-bottom:10px;">Request received</h3>
+        <p style="color:var(--ink-dim);">We'll review your requirements and reply within one business day.</p>
+        <p class="confirm-id" id="confirmId"></p>
+        <div style="margin-top:30px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="index.html" class="btn btn-ghost" data-no-transition>Back to site</a>
+          <a href="client-dashboard.html" class="btn btn-primary" data-no-transition>View your dashboard <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo"><span class="logo-mark"></span>OFF<sup>—</sup>SCRIPT</div>
+        <p class="footer-tagline">A four-person studio designing and building websites that businesses are proud to send to their customers.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Studio</h5>
+        <a href="about.html">About</a><a href="team.html">Team</a><a href="work.html">Work</a><a href="careers.html">Careers</a>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <a href="services.html">Design</a><a href="services.html">Development</a><a href="services.html">E-Commerce</a><a href="pricing.html">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <p><a href="mailto:hello@off-script.studio">hello@off-script.studio</a></p>
+        <p><a href="tel:+918248479834">+91 82484 79834</a></p>
+        <p>Coimbatore, India</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Designed &amp; built by OFF-SCRIPT.</span>
+      <span class="mono">© <span class="js-year">2026</span> OFF-SCRIPT Studio</span>
+      <span style="display:flex; gap:18px;">
+        <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="login.html">Client login</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/forms.js"></script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFF-SCRIPT — Web Design & Development Studio</title>
+<meta name="description" content="OFF-SCRIPT is a four-person studio designing and building websites, e-commerce stores and web applications. Direct team, custom work, no middle layer.">
+<meta property="og:title" content="OFF-SCRIPT — Web Design & Development Studio">
+<meta property="og:description" content="Four minds. One digital studio. We design and develop websites that make businesses impossible to ignore.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0a0e">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"OFF-SCRIPT Studio","description":"Four-person web design and development studio.","areaServed":"Worldwide","address":{"@type":"PostalAddress","addressLocality":"Coimbatore","addressCountry":"IN"}}
+</script>
+</head>
+<body>
+
+<div id="preloader" aria-hidden="true">
+  <div class="pre-top"><span>OFF-SCRIPT</span><span>EST. 2026</span></div>
+  <div class="pre-mid"><span class="status">Initialising</span> — loading experience</div>
+  <div class="pre-bottom">
+    <div class="pre-brand">OFF<span class="dim">—</span>SCRIPT</div>
+    <div class="pre-track"><div class="pre-fill"></div></div>
+    <div class="pre-count"><span>LOADING</span><b>0%</b></div>
+  </div>
+</div>
+
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="OFF-SCRIPT home"><span class="logo-mark"></span>OFF<sup>—</sup>SCRIPT</a>
+    <div class="nav-links">
+      <a href="work.html">Work</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">Studio</a>
+      <a href="process.html">Process</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="contact.html">Contact</a>
+      <a href="start.html" class="nav-cta btn btn-sm btn-primary">Start a project</a>
+      <button class="theme-toggle" aria-label="Toggle color theme">◐</button>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-links">
+    <a href="work.html"><i>01</i> Work</a>
+    <a href="services.html"><i>02</i> Services</a>
+    <a href="about.html"><i>03</i> Studio</a>
+    <a href="process.html"><i>04</i> Process</a>
+    <a href="pricing.html"><i>05</i> Pricing</a>
+    <a href="contact.html"><i>06</i> Contact</a>
+  </div>
+  <div class="mobile-foot">
+    <a href="start.html" class="btn btn-primary">Start a project →</a>
+    <div class="socials">
+      <a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">GitHub</a>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" style="min-height:100svh; display:flex; align-items:center; padding:calc(var(--nav-h) + 60px) 0 80px; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;">
+    <canvas id="heroCanvas" aria-hidden="true" style="width:100%; height:100%; opacity:.55;"></canvas>
+  </div>
+  <div style="position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(46% 60% at 78% 30%, var(--accent-soft), transparent 70%);"></div>
+
+  <div class="wrap" style="position:relative; z-index:1; width:100%;">
+    <p class="kicker hero-eyebrow" style="margin-bottom:22px;">Web design & development studio — Coimbatore, IN</p>
+    <h1 class="hero-title" style="font-size:clamp(2.6rem, 7.2vw, 5.6rem); text-transform:uppercase; letter-spacing:-.02em; line-height:1.02; max-width:16ch;">
+      <span class="row"><span>We turn ideas into</span></span>
+      <span class="row"><span>digital experiences</span></span>
+      <span class="row"><span style="color:var(--ink-faint);">worth remembering.</span></span>
+    </h1>
+    <p class="hero-sub" style="margin-top:30px; color:var(--ink-dim); font-size:clamp(1rem, 1.8vw, 1.25rem); max-width:52ch;">
+      Four minds. One digital studio. We design and develop websites that make businesses impossible to ignore — no templates, no middle layer, no handoffs.
+    </p>
+    <div class="hero-ctas" style="margin-top:42px; display:flex; gap:14px; flex-wrap:wrap;">
+      <a href="start.html" class="btn btn-primary magnetic">Start a project <span class="arr">→</span></a>
+      <a href="work.html" class="btn btn-ghost magnetic">Explore our work <span class="arr">↗</span></a>
+    </div>
+    <div class="hero-meta" style="margin-top:64px; display:flex; gap:48px; flex-wrap:wrap; padding-top:28px; border-top:1px solid var(--line);">
+      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">4</strong>People, no middle layer</div>
+      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">06</strong>Services under one roof</div>
+      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">100%</strong>Code &amp; design, in-house</div>
+      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">2026</strong>Studio founded</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ MARQUEE ============================ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Website Design</span><span>Development</span><span>E-Commerce</span><span>Web Apps</span><span>Landing Pages</span><span>Maintenance</span>
+    <span>Website Design</span><span>Development</span><span>E-Commerce</span><span>Web Apps</span><span>Landing Pages</span><span>Maintenance</span>
+  </div>
+</div>
+
+<!-- ============================ INTRO / POSITIONING ============================ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">Who we are</p>
+        <h2 class="split-words">A small studio with a large output.</h2>
+      </div>
+      <p class="lede">We're a four-person creative team combining design, development, technology and strategy — turning rough ideas into websites people remember.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal"><h3>Direct communication</h3><p>You talk directly to the people actually building your website — no account managers relaying messages.</p></div>
+      <div class="why-item reveal" style="--reveal-delay:80ms"><h3>Custom, not copied</h3><p>Every website is designed around your identity and requirements, not pulled from a template library.</p></div>
+      <div class="why-item reveal" style="--reveal-delay:160ms"><h3>Fast collaboration</h3><p>With only four people, ideas and feedback move quickly — decisions don't wait on a committee.</p></div>
+      <div class="why-item reveal" style="--reveal-delay:240ms"><h3>Design + development together</h3><p>Our designers and developers sit in the same room, so nothing gets lost in translation.</p></div>
+      <div class="why-item reveal" style="--reveal-delay:320ms"><h3>Built for your goals</h3><p>We focus on what the website needs to achieve for your business, not just how it looks.</p></div>
+      <div class="why-item reveal" style="--reveal-delay:400ms"><h3>Personal investment</h3><p>Four names are on every project we ship — the quality bar doesn't move.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SERVICES ============================ -->
+<section class="section section-alt">
+  <span class="sec-index">/ 01</span>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">What we do</p>
+        <h2>From idea to launch.</h2>
+      </div>
+      <p class="lede">Six services, one team — design and engineering handled by the same people who talk to you.</p>
+    </div>
+    <div class="services-grid" id="servicesGrid"></div>
+    <div style="margin-top:36px;">
+      <a href="services.html" class="link-arrow">All services in detail <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROCESS ============================ -->
+<section class="section">
+  <span class="sec-index">/ 02</span>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">How it works</p>
+        <h2>Simple process. Serious results.</h2>
+      </div>
+      <p class="lede">Six steps, zero mystery. You always know what's happening and what comes next.</p>
+    </div>
+    <div class="process-list" id="processList"></div>
+    <div style="margin-top:36px;">
+      <a href="process.html" class="link-arrow">Our full process <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ WORK PREVIEW ============================ -->
+<section class="section section-alt">
+  <span class="sec-index">/ 03</span>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">Selected work</p>
+        <h2>Things we've built.</h2>
+      </div>
+      <p class="lede">Placeholder projects for now — swap these for real case studies as they ship.</p>
+    </div>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+    <div style="margin-top:44px; text-align:center;">
+      <a href="work.html" class="btn btn-ghost">View all work <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STATS ============================ -->
+<section class="section-sm">
+  <div class="wrap">
+    <div class="stats-band" id="statsBand"></div>
+  </div>
+</section>
+
+<!-- ============================ TEAM ============================ -->
+<section class="section">
+  <span class="sec-index">/ 04</span>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">The team</p>
+        <h2>Four minds. One digital studio.</h2>
+      </div>
+      <p class="lede">The people you meet on the first call are the people who design, build and ship your website.</p>
+    </div>
+    <div class="team-grid" id="teamGrid"></div>
+    <div style="margin-top:36px;">
+      <a href="about.html" class="link-arrow">More about the studio <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TESTIMONIALS ============================ -->
+<section class="section section-alt">
+  <span class="sec-index">/ 05</span>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">Kind words</p>
+        <h2>What clients say.</h2>
+      </div>
+      <p class="lede">Placeholder quotes for now — replace with real client testimonials as they come in.</p>
+    </div>
+    <div class="tst-grid" id="tstGrid"></div>
+    <div style="margin-top:36px;">
+      <a href="testimonials.html" class="link-arrow">Read all testimonials <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PRICING ============================ -->
+<section class="section">
+  <span class="sec-index">/ 06</span>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">Packages</p>
+        <h2>Straightforward pricing.</h2>
+      </div>
+      <p class="lede">Starting points, not walls — final quotes depend on scope and are always fixed before we begin.</p>
+    </div>
+    <div class="pricing-grid" id="pricingGrid"></div>
+    <p class="pricing-note">Values are read from <code>js/config.js</code> (single source of truth) — update prices in one place.</p>
+  </div>
+</section>
+
+<!-- ============================ FAQ PREVIEW ============================ -->
+<section class="section section-alt">
+  <span class="sec-index">/ 07</span>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="kicker">Questions</p>
+        <h2>Before you ask.</h2>
+      </div>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+    <div style="margin-top:36px;">
+      <a href="faq.html" class="link-arrow">All frequently asked questions <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FINAL CTA + FOOTER ============================ -->
+<section class="footer-cta">
+  <div class="wrap">
+    <p class="kicker">Have a project in mind?</p>
+    <h2>
+      <span class="row reveal-mask"><span>Let's make</span></span>
+      <span class="row reveal-mask"><span>something</span></span>
+      <span class="row reveal-mask"><span class="accent">extraordinary.</span></span>
+    </h2>
+    <div class="btn-row">
+      <a href="start.html" class="btn btn-primary magnetic">Start a project <span class="arr">→</span></a>
+      <a href="contact.html" class="btn btn-ghost magnetic">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo"><span class="logo-mark"></span>OFF<sup>—</sup>SCRIPT</div>
+        <p class="footer-tagline">A four-person studio designing and building websites that businesses are proud to send to their customers.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Studio</h5>
+        <a href="about.html">About</a>
+        <a href="team.html">Team</a>
+        <a href="work.html">Work</a>
+        <a href="careers.html">Careers</a>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <a href="services.html">Design</a>
+        <a href="services.html">Development</a>
+        <a href="services.html">E-Commerce</a>
+        <a href="pricing.html">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <p><a href="mailto:hello@off-script.studio">hello@off-script.studio</a></p>
+        <p><a href="tel:+918248479834">+91 82484 79834</a></p>
+        <p>Coimbatore, India</p>
+        <div style="display:flex; gap:14px; margin-top:14px;">
+          <a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="LinkedIn">LI</a><a href="#" aria-label="GitHub">GH</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Designed &amp; built by OFF-SCRIPT.</span>
+      <span class="mono">© <span class="js-year">2026</span> OFF-SCRIPT Studio</span>
+      <span style="display:flex; gap:18px;">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="login.html" style="color:var(--ink-faint);">Client login</a>
+        <a href="#main" class="back-top">Back to top ↑</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<div id="cursorPreview" class="cursor-preview" aria-hidden="true"></div>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/hero-canvas.js"></script>
+<script src="js/portfolio.js"></script>
+</body>
+</html>
