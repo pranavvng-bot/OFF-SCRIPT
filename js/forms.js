@@ -266,6 +266,7 @@ form.addEventListener('submit', async e => {
 
   }
 });
+  }
 
   /* ============================================================
      DEMO AUTH — login / register / forgot
