@@ -111,27 +111,122 @@
   }
 
   /* ============================================================
-     ADMIN
-  ============================================================ */
-  const adminBody = $('#adminTableBody');
-  if(adminBody){
-    const tbody = adminBody;
-    tbody.innerHTML = '<tr><td colspan="5"><div class="skeleton" style="height:20px;"></div></td></tr>';
-    setTimeout(() => {
-      /* INTEGRATION POINT: fetch('GET /api/admin/projects') */
-      const records = Object.values(getProjects()).sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+   ADMIN
+   Loads real client inquiries from the backend
+============================================================ */
+
+const adminBody = $('#adminTableBody');
+
+if(adminBody){
+
+  const tbody = adminBody;
+
+  // Show loading state
+  tbody.innerHTML =
+    '<tr><td colspan="5">' +
+    '<div class="skeleton" style="height:20px;"></div>' +
+    '</td></tr>';
+
+  async function loadAdminInquiries(){
+
+    try {
+
+      const response = await fetch(
+        'http://localhost:5000/api/admin/inquiries'
+      );
+
+      const result = await response.json();
+
+      if(!response.ok || !result.success){
+        throw new Error(
+          result.message || 'Failed to load inquiries'
+        );
+      }
+
+      const records = result.inquiries || [];
+
+      console.log('Inquiries received:', records);
+
+      // No inquiries
       if(!records.length){
-        tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state">No client requests yet — they\'ll appear here once someone submits the "Start a Project" form.</div></td></tr>';
+
+        tbody.innerHTML =
+          '<tr><td colspan="5">' +
+          '<div class="empty-state">' +
+          'No client requests yet — they\'ll appear here once someone submits the "Start a Project" form.' +
+          '</div>' +
+          '</td></tr>';
+
         return;
       }
-      tbody.innerHTML = records.map(r =>
-        '<tr>' +
-          '<td><strong>' + esc(r.name) + '</strong><br><span class="sub">' + esc(r.email) + '</span></td>' +
-          '<td>' + esc(r.projectType) + (r.company ? '<br><span class="sub">' + esc(r.company) + '</span>' : '') + '</td>' +
-          '<td>' + esc(r.budget || '—') + '</td>' +
-          '<td><span class="tag-chip">' + esc(r.status) + '</span></td>' +
-          '<td class="sub">' + fmtDate(r.submittedAt) + '</td>' +
-        '</tr>').join('');
-    }, 250);
+
+      // Render real database records
+      tbody.innerHTML = records.map(r => {
+
+        const submittedDate =
+          r.submitted_at
+            ? fmtDate(r.submitted_at)
+            : '—';
+
+        return `
+          <tr>
+
+            <td>
+              <strong>${esc(r.name || '—')}</strong>
+              <br>
+              <span class="sub">${esc(r.email || '—')}</span>
+            </td>
+
+            <td>
+              ${esc(r.project_type || '—')}
+
+              ${
+                r.company
+                  ? '<br><span class="sub">' +
+                    esc(r.company) +
+                    '</span>'
+                  : ''
+              }
+            </td>
+
+            <td>
+              ${esc(r.budget || '—')}
+            </td>
+
+            <td>
+              <span class="tag-chip">
+                ${esc(r.status || 'Pending')}
+              </span>
+            </td>
+
+            <td class="sub">
+              ${submittedDate}
+            </td>
+
+          </tr>
+        `;
+
+      }).join('');
+
+    } catch(error) {
+
+      console.error(
+        'Failed to load admin inquiries:',
+        error
+      );
+
+      tbody.innerHTML =
+        '<tr><td colspan="5">' +
+        '<div class="empty-state">' +
+        'Unable to load client requests. Please check that the backend server is running.' +
+        '</div>' +
+        '</td></tr>';
+
+    }
   }
+
+  // Load inquiries when admin page opens
+  loadAdminInquiries();
+
+}
 })();
