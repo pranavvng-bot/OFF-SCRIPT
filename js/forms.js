@@ -1037,7 +1037,7 @@
 
                     const response =
                         await fetch(
-                            'http://localhost:5000/api/inquiries',
+                            'https://off-script-backend.onrender.com/api/inquiries',
                             {
 
                                 method: 'POST',
@@ -1312,7 +1312,7 @@
 
                     const response =
                         await fetch(
-                            'http://localhost:5000/api/projects/login',
+                            `https://off-script-backend.onrender.com/api/projects/login`,
                             {
 
                                 method: 'POST',
