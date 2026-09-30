@@ -100,7 +100,7 @@ if (dashRoot) {
             ============================================ */
 
             const response = await fetch(
-                `http://localhost:5000/api/projects/client/${encodeURIComponent(session.email)}`
+                `https://off-script-backend.onrender.com/api/projects/client/${encodeURIComponent(session.email)}`
             );
 
 
@@ -722,7 +722,7 @@ async function loadAdminClientRequests() {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/projects/admin/inquiries"
+            "https://off-script-backend.onrender.com/api/projects/admin/inquiries"
         );
 
         const result = await response.json();
@@ -910,7 +910,7 @@ async function proceedWithProject(inquiryId) {
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/projects/proceed/${encodeURIComponent(inquiryId)}`,
+           `https://off-script-backend.onrender.com/api/projects/proceed/${encodeURIComponent(inquiryId)}`,
             {
                 method: "POST",
                 headers: {
@@ -965,7 +965,7 @@ async function declineProject(inquiryId) {
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/projects/decline/${encodeURIComponent(inquiryId)}`,
+            `https://off-script-backend.onrender.com/api/projects/decline/${encodeURIComponent(inquiryId)}`,
             {
                 method: "POST",
                 headers: {
