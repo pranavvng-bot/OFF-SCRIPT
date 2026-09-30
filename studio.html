@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFF-SCRIPT</title>
+<meta name="description" content=" is a four-person studio that designs and builds websites, e-commerce stores and web applications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   Base: near-black studio canvas with one signal accent (lime)
+   and a quiet secondary (violet) used only for tags/links.
+   ============================================================ */
+:root{
+  --bg:#0b0c0f;
+  --bg-raised:#111319;
+  --bg-card:#14161d;
+  --line:#23252f;
+  --ink:#f2f1ec;
+  --ink-dim:#a5a6b0;
+  --ink-faint:#6d6e78;
+  --signal:#d4ff3d;
+  --signal-ink:#0b0c0f;
+  --violet:#8b7fff;
+  --danger:#ff6b6b;
+  --radius-s:2px;
+  --radius-m:4px;
+  --font-display:'Space Grotesk', sans-serif;
+  --font-body:'Inter', sans-serif;
+  --maxw:1200px;
+}
+:root[data-theme="light"]{
+  --bg:#f4f3ee;
+  --bg-raised:#ffffff;
+  --bg-card:#ffffff;
+  --line:#dcdad0;
+  --ink:#0e0f12;
+  --ink-dim:#54555e;
+  --ink-faint:#8b8c94;
+  --signal:#7a8f00;
+  --signal-ink:#f4f3ee;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f4f3ee; --bg-raised:#ffffff; --bg-card:#ffffff;
+    --line:#dcdad0; --ink:#0e0f12; --ink-dim:#54555e; --ink-faint:#8b8c94;
+    --signal:#7a8f00; --signal-ink:#f4f3ee;
+  }
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+  transition:background .3s ease, color .3s ease;
+}
+img{max-width:100%; display:block;}
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer;}
+input,textarea,select{font-family:inherit; font-size:1rem; color:var(--ink); background:transparent;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+section{position:relative;}
+h1,h2,h3,h4{font-family:var(--font-display); font-weight:600; letter-spacing:-0.01em; line-height:1.1;}
+:focus-visible{outline:2px solid var(--signal); outline-offset:3px;}
+::selection{background:var(--signal); color:var(--signal-ink);}
+
+/* wide content never breaks layout sideways */
+.scroll-x{overflow-x:auto;}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  border-bottom:1px solid transparent;
+  background:transparent;
+  transition:background .35s ease, border-color .35s ease;
+}
+.nav.is-scrolled{
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom-color:var(--line);
+}
+.nav-inner{
+  max-width:var(--maxw); margin:0 auto; padding:18px 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.logo{font-family:var(--font-display); font-weight:700; font-size:1.15rem; letter-spacing:-0.02em; display:flex; align-items:center; gap:8px;}
+.logo-mark{width:9px; height:9px; background:var(--signal); border-radius:1px; display:inline-block;}
+.nav-links{display:flex; gap:32px; align-items:center;}
+.nav-links a{font-size:.9rem; color:var(--ink-dim); transition:color .2s ease;}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{
+  font-size:.85rem; font-weight:600; padding:9px 18px;
+  background:var(--ink); color:var(--bg);
+  border-radius:var(--radius-s);
+  transition:opacity .2s ease;
+}
+.nav-cta:hover{opacity:.85;}
+.nav-toggle{display:none; background:none; border:none; color:var(--ink); font-size:1.5rem;}
+.theme-toggle{
+  background:none; border:1px solid var(--line); color:var(--ink-dim);
+  width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:.85rem; margin-left:8px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  min-height:100svh; display:flex; align-items:center;
+  padding:120px 0 60px;
+  position:relative;
+}
+.hero-bg{
+  position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none;
+}
+.hero-bg canvas{width:100%; height:100%; opacity:.55;}
+.hero-inner{position:relative; z-index:1;}
+.status-pill{
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid var(--line); border-radius:100px;
+  padding:6px 14px; font-size:.8rem; color:var(--ink-dim);
+  margin-bottom:28px;
+}
+.status-dot{width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 0 0 rgba(212,255,61,.5); animation:pulse 2.4s infinite;}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(212,255,61,.45);}
+  70%{box-shadow:0 0 0 8px rgba(212,255,61,0);}
+  100%{box-shadow:0 0 0 0 rgba(212,255,61,0);}
+}
+.hero h1{
+  font-size:clamp(2.4rem, 6vw, 5.2rem);
+  max-width:14ch;
+  margin-bottom:28px;
+}
+.hero h1 em{font-style:normal; color:var(--ink-faint);}
+.hero-sub{
+  font-size:clamp(1.05rem, 2vw, 1.25rem);
+  color:var(--ink-dim);
+  max-width:46ch;
+  margin-bottom:40px;
+}
+.hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:64px;}
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:14px 26px; border-radius:var(--radius-s);
+  font-size:.95rem; font-weight:600;
+  transition:transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  border:1px solid transparent;
+}
+.btn-primary{background:var(--signal); color:var(--signal-ink);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-ghost{border-color:var(--line); color:var(--ink);}
+.btn-ghost:hover{border-color:var(--ink-dim); transform:translateY(-2px);}
+.hero-meta{
+  display:flex; gap:48px; flex-wrap:wrap;
+  padding-top:28px; border-top:1px solid var(--line);
+}
+.hero-meta div{font-size:.82rem; color:var(--ink-faint);}
+.hero-meta strong{display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink); font-weight:600;}
+
+/* ============================================================
+   SECTION HEADING PATTERN
+   ============================================================ */
+.section{padding:120px 0;}
+.section-alt{background:var(--bg-raised);}
+.section-head{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  gap:24px; margin-bottom:64px; flex-wrap:wrap;
+}
+.section-head h2{font-size:clamp(1.8rem, 4vw, 2.6rem); max-width:16ch;}
+.section-head p{color:var(--ink-dim); max-width:36ch; font-size:.98rem;}
+.kicker{font-size:.8rem; color:var(--ink-faint); margin-bottom:10px;}
+
+/* ============================================================
+   ABOUT / TEAM
+   ============================================================ */
+.team-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+.team-card{
+  background:var(--bg); padding:32px 26px;
+  transition:background .3s ease;
+  position:relative; overflow:hidden;
+}
+.team-card:hover{background:var(--bg-card);}
+.team-avatar{
+  width:56px; height:56px; border-radius:50%;
+  background:linear-gradient(135deg, var(--bg-raised), var(--line));
+  border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:600; font-size:1.1rem;
+  margin-bottom:24px; color:var(--ink-dim);
+  transition:border-color .3s ease, color .3s ease;
+}
+.team-card:hover .team-avatar{border-color:var(--signal); color:var(--signal);}
+.team-card h3{font-size:1.05rem; margin-bottom:4px;}
+.team-role{font-size:.82rem; color:var(--signal); margin-bottom:14px; font-weight:500;}
+.team-card p{font-size:.88rem; color:var(--ink-dim); margin-bottom:18px; min-height:60px;}
+.team-skills{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px;}
+.team-skills span{
+  font-size:.72rem; color:var(--ink-faint); border:1px solid var(--line);
+  padding:3px 8px; border-radius:100px;
+}
+.team-links{display:flex; gap:12px;}
+.team-links a{font-size:.78rem; color:var(--ink-faint); border-bottom:1px solid transparent;}
+.team-links a:hover{color:var(--ink); border-color:var(--ink);}
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+.services-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+.service-card{background:var(--bg); padding:36px 30px; transition:background .3s ease;}
+.service-card:hover{background:var(--bg-card);}
+.service-num{font-family:var(--font-display); font-size:.8rem; color:var(--ink-faint); margin-bottom:22px; display:block;}
+.service-icon{width:34px; height:34px; margin-bottom:20px; color:var(--signal);}
+.service-card h3{font-size:1.15rem; margin-bottom:10px;}
+.service-card p{font-size:.9rem; color:var(--ink-dim);}
+
+/* ============================================================
+   PROCESS (legit numbered sequence)
+   ============================================================ */
+.process-list{border-top:1px solid var(--line);}
+.process-item{
+  display:grid; grid-template-columns:80px 1fr 1fr; gap:24px;
+  padding:32px 0; border-bottom:1px solid var(--line);
+  align-items:baseline;
+  opacity:.4; transform:translateX(-8px);
+  transition:opacity .5s ease, transform .5s ease;
+}
+.process-item.in-view{opacity:1; transform:translateX(0);}
+.process-num{font-family:var(--font-display); font-size:1rem; color:var(--signal);}
+.process-item h3{font-size:1.2rem;}
+.process-item p{color:var(--ink-dim); font-size:.92rem;}
+
+/* ============================================================
+   PORTFOLIO
+   ============================================================ */
+.filter-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:40px;}
+.filter-btn{
+  padding:8px 16px; border:1px solid var(--line); border-radius:100px;
+  font-size:.82rem; color:var(--ink-dim); background:transparent;
+  transition:all .2s ease;
+}
+.filter-btn.active, .filter-btn:hover{border-color:var(--ink); color:var(--ink);}
+.portfolio-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:24px;}
+.project-card{
+  border:1px solid var(--line); border-radius:var(--radius-m); overflow:hidden;
+  cursor:pointer; background:var(--bg-card);
+  transition:border-color .3s ease, transform .3s ease;
+}
+.project-card:hover{border-color:var(--ink-dim); transform:translateY(-4px);}
+.project-thumb{
+  aspect-ratio:16/10; position:relative; overflow:hidden;
+  background:linear-gradient(135deg, var(--bg-raised) 0%, var(--line) 100%);
+}
+.project-thumb svg{width:100%; height:100%;}
+.project-body{padding:22px 24px;}
+.project-cat{font-size:.75rem; color:var(--signal); margin-bottom:8px; font-weight:500;}
+.project-card h3{font-size:1.1rem; margin-bottom:8px;}
+.project-card p{font-size:.86rem; color:var(--ink-dim); margin-bottom:14px;}
+.project-tech{display:flex; flex-wrap:wrap; gap:6px;}
+.project-tech span{font-size:.72rem; color:var(--ink-faint); border:1px solid var(--line); padding:2px 8px; border-radius:100px;}
+.project-card.hidden-item{display:none;}
+
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(4px);
+  display:none; align-items:center; justify-content:center; z-index:200; padding:24px;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--bg-raised); border:1px solid var(--line); border-radius:var(--radius-m);
+  max-width:640px; width:100%; max-height:85vh; overflow-y:auto;
+  padding:40px;
+}
+.modal-close{float:right; background:none; border:none; color:var(--ink-dim); font-size:1.4rem;}
+.modal h3{font-size:1.6rem; margin:12px 0 6px;}
+.modal .project-cat{margin-bottom:20px;}
+.modal-thumb{aspect-ratio:16/9; border-radius:var(--radius-m); overflow:hidden; margin-bottom:24px; background:var(--bg-card);}
+.modal p.desc{color:var(--ink-dim); margin-bottom:20px; font-size:.95rem;}
+
+/* ============================================================
+   WHY US
+   ============================================================ */
+.why-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--line); border:1px solid var(--line);}
+.why-item{background:var(--bg); padding:30px 34px;}
+.why-item h3{font-size:1.05rem; margin-bottom:8px; display:flex; align-items:center; gap:10px;}
+.why-item h3::before{content:''; width:6px; height:6px; background:var(--signal); border-radius:50%; flex-shrink:0;}
+.why-item p{color:var(--ink-dim); font-size:.9rem;}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.pricing-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+.price-card{
+  border:1px solid var(--line); border-radius:var(--radius-m); padding:34px 30px;
+  display:flex; flex-direction:column;
+  transition:border-color .3s ease, transform .3s ease;
+}
+.price-card:hover{transform:translateY(-4px);}
+.price-card.featured{border-color:var(--signal); background:var(--bg-card); position:relative;}
+.price-card.featured::before{
+  content:'Most chosen'; position:absolute; top:-11px; left:30px;
+  background:var(--signal); color:var(--signal-ink); font-size:.7rem; font-weight:600;
+  padding:3px 10px; border-radius:100px;
+}
+.price-tier{font-size:.78rem; color:var(--ink-faint); margin-bottom:6px;}
+.price-card h3{font-size:1.3rem; margin-bottom:6px;}
+.price-value{font-family:var(--font-display); font-size:1.6rem; margin:16px 0 20px; color:var(--ink-dim);}
+.price-list{list-style:none; margin-bottom:28px; flex-grow:1;}
+.price-list li{
+  font-size:.88rem; color:var(--ink-dim); padding:9px 0;
+  border-top:1px solid var(--line);
+  display:flex; gap:10px;
+}
+.price-list li::before{content:'—'; color:var(--ink-faint); flex-shrink:0;}
+.price-cta{width:100%; text-align:center; padding:12px; border-radius:var(--radius-s); border:1px solid var(--line); font-size:.9rem; font-weight:600;}
+.price-card.featured .price-cta{background:var(--signal); color:var(--signal-ink); border-color:var(--signal);}
+.pricing-note{margin-top:28px; font-size:.85rem; color:var(--ink-faint);}
+
+/* ============================================================
+   START A PROJECT (form)
+   ============================================================ */
+.form-shell{
+  border:1px solid var(--line); border-radius:var(--radius-m);
+  background:var(--bg-card); padding:44px;
+  max-width:760px; margin:0 auto;
+}
+.form-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+.field{margin-bottom:20px;}
+.field.full{grid-column:1/-1;}
+.field label{display:block; font-size:.82rem; color:var(--ink-dim); margin-bottom:8px;}
+.field input, .field select, .field textarea{
+  width:100%; border:1px solid var(--line); border-radius:var(--radius-s);
+  padding:12px 14px; background:var(--bg); transition:border-color .2s ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--signal);}
+.field textarea{resize:vertical; min-height:100px;}
+.field-error{font-size:.78rem; color:var(--danger); margin-top:6px; display:none;}
+.field.has-error input, .field.has-error textarea, .field.has-error select{border-color:var(--danger);}
+.field.has-error .field-error{display:block;}
+.field-hint{font-size:.78rem; color:var(--ink-faint); margin-top:6px;}
+.file-drop{
+  border:1px dashed var(--line); border-radius:var(--radius-s);
+  padding:24px; text-align:center; font-size:.85rem; color:var(--ink-faint);
+  cursor:pointer; transition:border-color .2s ease;
+}
+.file-drop:hover{border-color:var(--signal);}
+.file-drop input{display:none;}
+.file-list{margin-top:10px; font-size:.8rem; color:var(--ink-dim);}
+.form-submit{width:100%; padding:15px; margin-top:8px;}
+.form-submit[disabled]{opacity:.6; cursor:progress;}
+.confirm-screen{text-align:center; padding:20px 0;}
+.confirm-icon{
+  width:56px; height:56px; border-radius:50%; background:var(--signal); color:var(--signal-ink);
+  display:flex; align-items:center; justify-content:center; margin:0 auto 24px; font-size:1.6rem;
+}
+.confirm-id{font-family:var(--font-display); font-size:.85rem; color:var(--ink-faint); margin-top:6px;}
+
+/* skeleton loading */
+.skeleton{background:linear-gradient(90deg, var(--bg-card) 25%, var(--line) 50%, var(--bg-card) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:var(--radius-s);}
+@keyframes shimmer{0%{background-position:200% 0;} 100%{background-position:-200% 0;}}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;}
+.contact-info div{margin-bottom:28px;}
+.contact-info h4{font-size:.82rem; color:var(--ink-faint); margin-bottom:6px;}
+.contact-info a, .contact-info p{font-size:1rem;}
+.contact-social{display:flex; gap:16px; margin-top:8px;}
+.contact-social a{font-size:.85rem; color:var(--ink-dim); border-bottom:1px solid var(--line);}
+.contact-social a:hover{color:var(--ink); border-color:var(--ink);}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{border-top:1px solid var(--line); padding:60px 0 32px;}
+.footer-grid{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:32px; margin-bottom:48px;}
+.footer-tagline{color:var(--ink-dim); font-size:.9rem; max-width:32ch; margin-top:10px;}
+.footer-col h5{font-size:.78rem; color:var(--ink-faint); margin-bottom:14px;}
+.footer-col a{display:block; font-size:.88rem; color:var(--ink-dim); margin-bottom:10px;}
+.footer-col a:hover{color:var(--ink);}
+.footer-bottom{
+  display:flex; justify-content:space-between; align-items:center;
+  padding-top:24px; border-top:1px solid var(--line);
+  font-size:.8rem; color:var(--ink-faint); flex-wrap:wrap; gap:12px;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed; bottom:24px; right:24px; z-index:300;
+  background:var(--ink); color:var(--bg); padding:14px 20px; border-radius:var(--radius-s);
+  font-size:.88rem; transform:translateY(20px); opacity:0; pointer-events:none;
+  transition:all .35s ease; max-width:320px;
+}
+.toast.show{transform:translateY(0); opacity:1;}
+
+/* ============================================================
+   DASHBOARD (client + admin views)
+   ============================================================ */
+.view{display:none;}
+.view.active{display:block;}
+.dash-header{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:48px; flex-wrap:wrap; gap:16px;
+}
+.dash-back{font-size:.85rem; color:var(--ink-dim); border-bottom:1px solid var(--line);}
+.dash-grid{display:grid; grid-template-columns:2fr 1fr; gap:24px;}
+.dash-card{border:1px solid var(--line); border-radius:var(--radius-m); padding:28px; background:var(--bg-card); margin-bottom:24px;}
+.dash-card h3{font-size:1rem; margin-bottom:18px;}
+.progress-track{height:6px; background:var(--line); border-radius:100px; overflow:hidden; margin:14px 0;}
+.progress-fill{height:100%; background:var(--signal); border-radius:100px; transition:width .6s ease;}
+.status-badge{
+  display:inline-block; font-size:.75rem; padding:4px 12px; border-radius:100px;
+  border:1px solid var(--line); color:var(--ink-dim);
+}
+.status-badge.live{border-color:var(--signal); color:var(--signal);}
+.milestone-row{display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-top:1px solid var(--line); font-size:.88rem;}
+.milestone-row:first-of-type{border-top:none;}
+.pay-pending{color:var(--ink-faint);}
+.pay-paid{color:var(--signal);}
+.empty-state{text-align:center; padding:60px 20px; color:var(--ink-faint); font-size:.9rem;}
+.admin-table{width:100%; border-collapse:collapse; font-size:.88rem;}
+.admin-table th{text-align:left; color:var(--ink-faint); font-weight:500; font-size:.78rem; padding:10px 14px; border-bottom:1px solid var(--line);}
+.admin-table td{padding:14px; border-bottom:1px solid var(--line); vertical-align:top;}
+.admin-table tr:hover td{background:var(--bg-card);}
+.tag-chip{font-size:.72rem; padding:3px 9px; border-radius:100px; border:1px solid var(--line); color:var(--ink-dim);}
+
+/* ============================================================
+   MOBILE NAV
+   ============================================================ */
+.mobile-menu{
+  position:fixed; inset:0; background:var(--bg); z-index:150;
+  display:none; flex-direction:column; padding:100px 32px 32px; gap:28px;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:var(--font-display); font-size:1.6rem;}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px){
+  .nav-links{display:none;}
+  .nav-toggle{display:block;}
+  .team-grid{grid-template-columns:repeat(2, 1fr);}
+  .services-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .portfolio-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr; gap:40px;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .process-item{grid-template-columns:50px 1fr; }
+  .process-item p{grid-column:1/-1;}
+  .form-grid{grid-template-columns:1fr;}
+  .dash-grid{grid-template-columns:1fr;}
+  .hero-meta{gap:28px;}
+}
+@media (max-width: 560px){
+  .team-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .section{padding:80px 0;}
+  .form-shell{padding:28px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#home" class="logo" onclick="showView('home')"><span class="logo-mark"></span>OFF-SCRIPT</a>
+    <div class="nav-links">
+      <a href="#work" onclick="showView('home')">Work</a>
+      <a href="#services" onclick="showView('home')">Services</a>
+      <a href="#team" onclick="showView('home')">Team</a>
+      <a href="#pricing" onclick="showView('home')">Pricing</a>
+      <a href="#contact" onclick="showView('home')">Contact</a>
+      <a href="#" class="nav-cta" onclick="showView('start')">Start a project</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">◐</button>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#work" onclick="closeMobile(); showView('home')">Work</a>
+  <a href="#services" onclick="closeMobile(); showView('home')">Services</a>
+  <a href="#team" onclick="closeMobile(); showView('home')">Team</a>
+  <a href="#pricing" onclick="closeMobile(); showView('home')">Pricing</a>
+  <a href="#contact" onclick="closeMobile(); showView('home')">Contact</a>
+  <a href="#" onclick="closeMobile(); showView('start')" style="color:var(--signal)">Start a project →</a>
+</div>
+
+<!-- ============================================================
+     HOME VIEW
+============================================================ -->
+<main id="view-home" class="view active">
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"><canvas id="heroCanvas" aria-hidden="true"></canvas></div>
+  <div class="wrap hero-inner">
+    <div class="status-pill"><span class="status-dot"></span> Available for new projects</div>
+    <h1>We don't just build websites. <em>We build digital experiences.</em></h1>
+    <p class="hero-sub">Four creators, one studio. We design and develop modern websites that help businesses look better, connect with their customers and grow online.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary" onclick="showView('start')">Start a project</a>
+      <a href="#work" class="btn btn-ghost">Explore our work</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>4</strong>People, no middle layer</div>
+      <div><strong>06</strong>Services under one roof</div>
+      <div><strong>2026</strong>Studio founded</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / TEAM -->
+<section class="section" id="team">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">About us</div>
+        <h2>Four minds. One digital studio.</h2>
+      </div>
+      <p>We're a four-person creative team combining design, development, technology and strategy to turn ideas into websites people remember.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">01</div>
+        <h3>Person 01</h3>
+        <div class="team-role">UI/UX Designer</div>
+        <p>Shapes the first impression — from wireframe to a system that scales across every page.</p>
+        <div class="team-skills"><span>Figma</span><span>UI Design</span><span>UX Research</span><span>Prototyping</span><span>Design Systems</span></div>
+        <div class="team-links"><a href="#">LinkedIn</a><a href="#">Portfolio</a></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">02</div>
+        <h3>Person 02</h3>
+        <div class="team-role">Frontend Developer</div>
+        <p>Turns approved design into fast, interactive interfaces that feel as good as they look.</p>
+        <div class="team-skills"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Animation</span></div>
+        <div class="team-links"><a href="#">LinkedIn</a><a href="#">GitHub</a></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">03</div>
+        <h3>Person 03</h3>
+        <div class="team-role">Backend Developer</div>
+        <p>Builds the systems underneath — data, auth and APIs that stay reliable as projects grow.</p>
+        <div class="team-skills"><span>Node.js</span><span>APIs</span><span>Databases</span><span>Auth</span><span>Servers</span></div>
+        <div class="team-links"><a href="#">LinkedIn</a><a href="#">GitHub</a></div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">04</div>
+        <h3>Person 04</h3>
+        <div class="team-role">Full-Stack / Creative Developer</div>
+        <p>Connects design and engineering end to end, from integration through to deployment.</p>
+        <div class="team-skills"><span>Full-Stack</span><span>Integration</span><span>Deployment</span><span>Problem Solving</span></div>
+        <div class="team-links"><a href="#">LinkedIn</a><a href="#">Portfolio</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section section-alt" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">What we do</div>
+        <h2>From idea to launch.</h2>
+      </div>
+      <p>Six services, one team — design and engineering handled by the same people who talk to you.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-num">01</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="14" rx="1"/><path d="M3 9h18M7 4v5"/></svg>
+        <h3>Website Design</h3>
+        <p>Modern UI/UX tailored specifically to your brand, not a recolored template.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">02</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 9l-5 5 5 5M16 9l5 5-5 5M13 3l-3 18"/></svg>
+        <h3>Website Development</h3>
+        <p>Fast, responsive and scalable builds using modern, production-grade tools.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">03</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+        <h3>Business Websites</h3>
+        <p>Professional sites for startups, local businesses, creators and professionals.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">04</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="9" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        <h3>E-Commerce</h3>
+        <p>Online stores with product management, payments and a checkout customers trust.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">05</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <h3>Custom Web Applications</h3>
+        <p>Interactive applications built around your specific business requirements.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-num">06</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+        <h3>Website Maintenance</h3>
+        <p>Updates, improvements, bug fixes and ongoing technical support after launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">How it works</div>
+        <h2>Simple process. Serious results.</h2>
+      </div>
+    </div>
+    <div class="process-list" id="processList">
+      <div class="process-item"><span class="process-num">01</span><h3>Tell us your idea</h3><p>You explain your business, goals and requirements — no jargon needed.</p></div>
+      <div class="process-item"><span class="process-num">02</span><h3>We plan</h3><p>We map the requirements into a structure and a clear design direction.</p></div>
+      <div class="process-item"><span class="process-num">03</span><h3>We design</h3><p>We build the visual experience and walk you through it for feedback.</p></div>
+      <div class="process-item"><span class="process-num">04</span><h3>We build</h3><p>The approved design becomes a fully functional, tested website.</p></div>
+      <div class="process-item"><span class="process-num">05</span><h3>We test</h3><p>We check responsiveness, performance, functionality and usability.</p></div>
+      <div class="process-item"><span class="process-num">06</span><h3>We launch</h3><p>Your site goes live and you receive the finished product, fully yours.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="section section-alt" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Selected work</div>
+        <h2>Things we've built.</h2>
+      </div>
+      <p>Placeholder projects for now — swap these for real case studies as they ship.</p>
+    </div>
+    <div class="filter-row" id="filterRow">
+      <button class="filter-btn active" data-filter="All">All</button>
+      <button class="filter-btn" data-filter="Business">Business</button>
+      <button class="filter-btn" data-filter="E-Commerce">E-Commerce</button>
+      <button class="filter-btn" data-filter="Landing Pages">Landing Pages</button>
+      <button class="filter-btn" data-filter="Web Apps">Web Apps</button>
+      <button class="filter-btn" data-filter="Creative">Creative</button>
+    </div>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Why work with us</div>
+        <h2>Why work with a small team?</h2>
+      </div>
+    </div>
+    <div class="why-grid">
+      <div class="why-item"><h3>Direct Communication</h3><p>You talk directly to the people actually building your website — no account managers relaying messages.</p></div>
+      <div class="why-item"><h3>Custom, Not Copied</h3><p>Every website is designed around your identity and requirements, not pulled from a template library.</p></div>
+      <div class="why-item"><h3>Fast Collaboration</h3><p>With only four people, ideas and feedback move quickly — decisions don't wait on a committee.</p></div>
+      <div class="why-item"><h3>Design + Development Together</h3><p>Our designers and developers sit in the same room, so nothing gets lost in translation.</p></div>
+      <div class="why-item"><h3>Built for Your Goals</h3><p>We focus on what the website needs to achieve for your business, not just how it looks.</p></div>
+      <div class="why-item"><h3>Personal Investment</h3><p>Four names are on every project we ship — the quality bar doesn't move.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section section-alt" id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Packages</div>
+        <h2>Straightforward pricing.</h2>
+      </div>
+      <p>Figures below are starting points — final quotes depend on scope.</p>
+    </div>
+    <div class="pricing-grid" id="pricingGrid"></div>
+    <p class="pricing-note">Package values are read from a single config below (<code>PRICING_CONFIG</code>) rather than hardcoded per card, so they're easy to update in one place.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Get in touch</div>
+        <h2>Have an idea? Let's build it.</h2>
+      </div>
+      <p>Tell us what you're thinking. We'll turn the rough idea into something real.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div><h4>Email</h4><a href="mailto:hello@OFF-SCRIPT.studio">hello@OFF-SCRIPT.studio</a></div>
+        <div><h4>Phone</h4><a href="tel:+910000000000">+91 82484 79834</a></div>
+        <div><h4>Studio</h4><p>Coimbatore, India</p></div>
+        
+        <div style="margin-top:36px;">
+          <a href="#" class="btn btn-primary" onclick="showView('start')">Start a project</a>
+        </div>
+      </div>
+      <form class="form-shell" id="quickContactForm" style="padding:36px;" novalidate>
+        <div class="field full">
+          <label for="qc-name">Your name</label>
+          <input type="text" id="qc-name" name="name" required>
+          <div class="field-error">Please enter your name.</div>
+        </div>
+        <div class="field full">
+          <label for="qc-email">Email</label>
+          <input type="email" id="qc-email" name="email" required>
+          <div class="field-error">Please enter a valid email.</div>
+        </div>
+        <div class="field full">
+          <label for="qc-message">Message</label>
+          <textarea id="qc-message" name="message" required placeholder="What are you building?"></textarea>
+          <div class="field-error">Tell us a little about what you need.</div>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit">Talk to us</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo"><span class="logo-mark"></span>OFF-SCRIPT</div>
+        <p class="footer-tagline">A four-person studio designing and building websites that businesses are proud to send to their customers.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Studio</h5>
+        <a href="#team" onclick="showView('home')">About</a>
+        <a href="#work" onclick="showView('home')">Portfolio</a>
+        <a href="#contact" onclick="showView('home')">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <a href="#services" onclick="showView('home')">Design</a>
+        <a href="#services" onclick="showView('home')">Development</a>
+        <a href="#services" onclick="showView('home')">E-Commerce</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms &amp; Conditions</a>
+        <a href="#" onclick="showView('admin'); return false;" style="color:var(--ink-faint); font-size:.78rem;">Team login</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Designed &amp; built by OFF-SCRIPT.</span>
+      <span>© 2026 OFF-SCRIPT Studio. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+</main>
+
+<!-- ============================================================
+     START A PROJECT VIEW
+============================================================ -->
+<section class="view section" id="view-start" style="padding-top:140px;">
+  <div class="wrap">
+    <div class="dash-header">
+      <div>
+        <div class="kicker">Client onboarding</div>
+        <h2>Start your project.</h2>
+      </div>
+      <a href="#" class="dash-back" onclick="showView('home')">← Back to site</a>
+    </div>
+
+    <div id="startFormWrap">
+      <form class="form-shell" id="projectForm" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="p-name">Full name</label>
+            <input type="text" id="p-name" required>
+            <div class="field-error">Please enter your full name.</div>
+          </div>
+          <div class="field">
+            <label for="p-email">Email</label>
+            <input type="email" id="p-email" required>
+            <div class="field-error">Please enter a valid email address.</div>
+          </div>
+          <div class="field">
+            <label for="p-phone">Phone number</label>
+            <input type="tel" id="p-phone" required>
+            <div class="field-error">Please enter a phone number.</div>
+          </div>
+          <div class="field">
+            <label for="p-company">Company / brand name</label>
+            <input type="text" id="p-company">
+          </div>
+          <div class="field">
+            <label for="p-type">Project type</label>
+            <select id="p-type" required>
+              <option value="">Select one</option>
+              <option>Business Website</option>
+              <option>E-Commerce</option>
+              <option>Custom Web Application</option>
+              <option>Landing Page</option>
+              <option>Maintenance / Update</option>
+              <option>Other</option>
+            </select>
+            <div class="field-error">Please select a project type.</div>
+          </div>
+          <div class="field">
+            <label for="p-budget">Budget range</label>
+            <select id="p-budget" required>
+              <option value="">Select one</option>
+              <option>Under ₹25,000</option>
+              <option>₹25,000 – ₹75,000</option>
+              <option>₹75,000 – ₹2,00,000</option>
+              <option>₹2,00,000+</option>
+              <option>Not sure yet</option>
+            </select>
+            <div class="field-error">Please select a budget range.</div>
+          </div>
+          <div class="field">
+            <label for="p-deadline">Desired deadline</label>
+            <input type="date" id="p-deadline">
+          </div>
+          <div class="field">
+            <label for="p-reference">Reference websites</label>
+            <input type="text" id="p-reference" placeholder="Links you like, comma-separated">
+          </div>
+          <div class="field full">
+            <label for="p-requirements">Website requirements</label>
+            <textarea id="p-requirements" required placeholder="Pages, features, must-haves..."></textarea>
+            <div class="field-error">Please describe what you need.</div>
+          </div>
+          <div class="field full">
+            <label>Reference files (optional)</label>
+            <label class="file-drop" for="p-files">
+              Click to attach briefs, logos or inspiration files
+              <input type="file" id="p-files" multiple>
+            </label>
+            <div class="file-list" id="fileList"></div>
+          </div>
+          <div class="field full">
+            <label for="p-notes">Additional notes</label>
+            <textarea id="p-notes" placeholder="Anything else we should know?"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit" id="projectSubmitBtn">Submit project request</button>
+        <p class="field-hint" style="text-align:center; margin-top:14px;">Submitting creates your client record — no password needed for this preview, we'll email you a secure sign-in link on a live site.</p>
+      </form>
+    </div>
+
+    <div id="confirmWrap" style="display:none;">
+      <div class="form-shell confirm-screen">
+        <div class="confirm-icon">✓</div>
+        <h3 style="font-size:1.5rem; margin-bottom:10px;">Request received</h3>
+        <p style="color:var(--ink-dim);">We'll review your requirements and reply within one business day.</p>
+        <p class="confirm-id" id="confirmId"></p>
+        <div style="margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="#" class="btn btn-ghost" onclick="showView('home')">Back to site</a>
+          <a href="#" class="btn btn-primary" onclick="showView('dashboard')">View your dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CLIENT DASHBOARD VIEW
+============================================================ -->
+<section class="view section" id="view-dashboard" style="padding-top:140px;">
+  <div class="wrap">
+    <div class="dash-header">
+      <div>
+        <div class="kicker" id="dashWelcomeKicker">Client dashboard</div>
+        <h2 id="dashWelcome">Welcome</h2>
+      </div>
+      <a href="#" class="dash-back" onclick="showView('home')">← Back to site</a>
+    </div>
+    <div id="dashboardContent"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ADMIN VIEW
+============================================================ -->
+<section class="view section" id="view-admin" style="padding-top:140px;">
+  <div class="wrap">
+    <div class="dash-header">
+      <div>
+        <div class="kicker">Internal</div>
+        <h2>Studio admin</h2>
+      </div>
+      <a href="#" class="dash-back" onclick="showView('home')">← Back to site</a>
+    </div>
+    <p style="color:var(--ink-faint); font-size:.85rem; margin-bottom:32px; max-width:60ch;">
+      This preview is unlocked for anyone with the link. A production build would sit behind real authentication and role-based access for the four team accounts.
+    </p>
+    <div class="dash-card">
+      <h3>Client requests</h3>
+      <div class="scroll-x">
+        <table class="admin-table" id="adminTable">
+          <thead><tr><th>Client</th><th>Project</th><th>Budget</th><th>Status</th><th>Submitted</th></tr></thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div class="modal-thumb" id="modalThumb"></div>
+    <div class="project-cat" id="modalCat"></div>
+    <h3 id="modalTitle"></h3>
+    <p class="desc" id="modalDesc"></p>
+    <div class="project-tech" id="modalTech"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA — single source of truth for editable content
+   (In production these would come from a CMS / database rather
+   than being hardcoded in the page.)
+============================================================ */
+const PRICING_CONFIG = [
+  { tier:'Starter', name:'For individuals & small businesses', value:'From ₹5,000', featured:false,
+    items:['Custom landing / business website','Responsive design','Basic animations','Contact form','Basic SEO setup','Deployment included'] },
+  { tier:'Growth', name:'For growing businesses', value:'From ₹8,000', featured:true,
+    items:['Everything in Starter','Multiple pages','Advanced UI/UX','CMS / content management','Analytics integration','Performance optimization'] },
+  { tier:'Custom', name:'For unique requirements', value:'Tell us what you need', featured:false,
+    items:['Custom web applications','E-commerce','Dashboards','API integrations','Authentication','Advanced functionality'] },
+];
+
+const PROJECTS = [
+  { name:'Northfield Realty', cat:'Business', desc:'A trust-building brochure site for a boutique real-estate agency, with a searchable listings grid and inquiry flow.', tech:['React','Tailwind','Node.js'] },
+  { name:'Lumen & Co.', cat:'E-Commerce', desc:'A jewellery storefront with fast product filtering, wishlist and a streamlined checkout.', tech:['Next.js','Stripe','Sanity'] },
+  { name:'Pulse Fitness Launch', cat:'Landing Pages', desc:'A single-page campaign site built to convert sign-ups ahead of a studio opening.', tech:['HTML','GSAP','Netlify'] },
+  { name:'Fieldnote', cat:'Web Apps', desc:'An internal tool for a logistics team to track deliveries and flag delays in real time.', tech:['React','Firebase','WebSockets'] },
+  { name:'Aperture Journal', cat:'Creative', desc:'An editorial photography magazine with a custom grid layout and scroll-driven story pages.', tech:['Vue','Three.js','Cloudinary'] },
+  { name:'Harbor Supply Co.', cat:'E-Commerce', desc:'A wholesale ordering platform with tiered pricing and bulk-order tooling for repeat buyers.', tech:['React','Node.js','PostgreSQL'] },
+];
+
+const THUMB_GRADIENTS = ['#d4ff3d','#8b7fff','#ff6b6b','#3dd6ff','#ffb84d','#7affc0'];
+
+/* ============================================================
+   VIEW ROUTER
+   Swaps between the marketing site, project intake, client
+   dashboard and admin — all client-side, no page reloads.
+============================================================ */
+function showView(name){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + name);
+  if(target) target.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+  if(name === 'dashboard') renderDashboard();
+  if(name === 'admin') renderAdmin();
+  closeMobile();
+}
+
+/* ============================================================
+   NAV: scroll shadow + mobile menu
+============================================================ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('is-scrolled', window.scrollY > 20);
+});
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+navToggle.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+  navToggle.textContent = open ? '×' : '☰';
+});
+function closeMobile(){
+  mobileMenu.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.textContent = '☰';
+}
+
+/* ============================================================
+   THEME TOGGLE (persists per viewer via localStorage)
+============================================================ */
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  themeToggle.textContent = t === 'light' ? '◑' : '◐';
+}
+try{
+  const saved = localStorage.getItem('OFF-SCRIPT-theme');
+  if(saved) applyTheme(saved);
+}catch(e){}
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  const next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  try{ localStorage.setItem('OFF-SCRIPT-theme', next); }catch(e){}
+});
+
+/* ============================================================
+   HERO CANVAS — subtle animated node network
+============================================================ */
+(function heroCanvas(){
+  const canvas = document.getElementById('heroCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, nodes = [];
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function resize(){
+    w = canvas.width = canvas.parentElement.offsetWidth;
+    h = canvas.height = canvas.parentElement.offsetHeight;
+  }
+  function initNodes(){
+    const count = Math.min(46, Math.floor((w*h)/28000));
+    nodes = Array.from({length:count}, () => ({
+      x:Math.random()*w, y:Math.random()*h,
+      vx:(Math.random()-0.5)*0.25, vy:(Math.random()-0.5)*0.25
+    }));
+  }
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(212,255,61,0.55)';
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if(n.x < 0 || n.x > w) n.vx *= -1;
+      if(n.y < 0 || n.y > h) n.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 1.6, 0, Math.PI*2);
+      ctx.fill();
+    });
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx = nodes[i].x-nodes[j].x, dy = nodes[i].y-nodes[j].y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < 130){
+          ctx.strokeStyle = `rgba(139,127,255,${0.18*(1-dist/130)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    if(!prefersReduced) requestAnimationFrame(tick);
+  }
+  if(canvas){
+    resize(); initNodes();
+    window.addEventListener('resize', () => { resize(); initNodes(); });
+    tick();
+  }
+})();
+
+/* ============================================================
+   PROCESS — scroll reveal via IntersectionObserver
+============================================================ */
+const processObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {threshold:0.3});
+document.querySelectorAll('.process-item').forEach(el => processObserver.observe(el));
+
+/* ============================================================
+   PORTFOLIO — render, filter, modal
+============================================================ */
+function projectThumbSVG(idx){
+  const c = THUMB_GRADIENTS[idx % THUMB_GRADIENTS.length];
+  return `<svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="g${idx}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${c}" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="${c}" stop-opacity="0.05"/>
+    </linearGradient></defs>
+    <rect width="400" height="250" fill="url(#g${idx})"/>
+    <circle cx="${60+idx*12}" cy="${80+idx*8}" r="70" fill="${c}" opacity="0.12"/>
+  </svg>`;
+}
+function renderPortfolio(filter='All'){
+  const grid = document.getElementById('portfolioGrid');
+  grid.innerHTML = PROJECTS.map((p, i) => `
+    <div class="project-card ${filter!=='All' && p.cat!==filter ? 'hidden-item':''}" data-idx="${i}" tabindex="0" role="button" aria-label="View ${p.name} project details">
+      <div class="project-thumb">${projectThumbSVG(i)}</div>
+      <div class="project-body">
+        <div class="project-cat">${p.cat}</div>
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <div class="project-tech">${p.tech.map(t=>`<span>${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+  grid.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card.dataset.idx));
+    card.addEventListener('keydown', e => { if(e.key === 'Enter') openModal(card.dataset.idx); });
+  });
+}
+renderPortfolio();
+
+document.getElementById('filterRow').addEventListener('click', (e) => {
+  const btn = e.target.closest('.filter-btn');
+  if(!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPortfolio(btn.dataset.filter);
+});
+
+const modalOverlay = document.getElementById('modalOverlay');
+function openModal(idx){
+  const p = PROJECTS[idx];
+  document.getElementById('modalThumb').innerHTML = projectThumbSVG(idx);
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalTitle').textContent = p.name;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalTech').innerHTML = p.tech.map(t=>`<span>${t}</span>`).join('');
+  modalOverlay.classList.add('open');
+}
+document.getElementById('modalClose').addEventListener('click', () => modalOverlay.classList.remove('open'));
+modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) modalOverlay.classList.remove('open'); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') modalOverlay.classList.remove('open'); });
+
+/* ============================================================
+   PRICING — rendered from PRICING_CONFIG
+============================================================ */
+function renderPricing(){
+  const grid = document.getElementById('pricingGrid');
+  grid.innerHTML = PRICING_CONFIG.map(t => `
+    <div class="price-card ${t.featured ? 'featured':''}">
+      <div class="price-tier">${t.tier}</div>
+      <h3>${t.name}</h3>
+      <div class="price-value">${t.value}</div>
+      <ul class="price-list">${t.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+      <a href="#" class="price-cta" onclick="showView('start'); return false;">Get a quote</a>
+    </div>`).join('');
+}
+renderPricing();
+
+/* ============================================================
+   TOAST
+============================================================ */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ============================================================
+   FORM VALIDATION HELPERS
+============================================================ */
+function validateField(field, isValid){
+  field.closest('.field').classList.toggle('has-error', !isValid);
+  return isValid;
+}
+function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+/* Quick contact form on the marketing page */
+document.getElementById('quickContactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('qc-name');
+  const email = document.getElementById('qc-email');
+  const message = document.getElementById('qc-message');
+  let ok = true;
+  ok = validateField(name, name.value.trim().length > 1) && ok;
+  ok = validateField(email, isValidEmail(email.value)) && ok;
+  ok = validateField(message, message.value.trim().length > 4) && ok;
+  if(!ok) return;
+  showToast("Message sent — we'll reply within one business day.");
+  this.reset();
+});
+
+/* ============================================================
+   PROJECT INTAKE FORM — writes a client record + submission
+   into the shared db capability so the admin view and this
+   client's dashboard can both read it back.
+============================================================ */
+let dbApi = null;
+(async () => { try{ dbApi = await claude.use('db'); }catch(e){ dbApi = null; } })();
+
+function currentClientKey(){
+  let id = null;
+  try{ id = localStorage.getItem('OFF-SCRIPT-client-id'); }catch(e){}
+  return id;
+}
+function setCurrentClientKey(id){
+  try{ localStorage.setItem('OFF-SCRIPT-client-id', id); }catch(e){}
+}
+
+const fileInput = document.getElementById('p-files');
+fileInput.addEventListener('change', () => {
+  const names = Array.from(fileInput.files).map(f => f.name);
+  document.getElementById('fileList').textContent = names.length ? `Attached: ${names.join(', ')}` : '';
+});
+
+document.getElementById('projectForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const fields = {
+    name: document.getElementById('p-name'),
+    email: document.getElementById('p-email'),
+    phone: document.getElementById('p-phone'),
+    type: document.getElementById('p-type'),
+    budget: document.getElementById('p-budget'),
+    requirements: document.getElementById('p-requirements'),
+  };
+  let ok = true;
+  ok = validateField(fields.name, fields.name.value.trim().length > 1) && ok;
+  ok = validateField(fields.email, isValidEmail(fields.email.value)) && ok;
+  ok = validateField(fields.phone, fields.phone.value.trim().length > 5) && ok;
+  ok = validateField(fields.type, fields.type.value !== '') && ok;
+  ok = validateField(fields.budget, fields.budget.value !== '') && ok;
+  ok = validateField(fields.requirements, fields.requirements.value.trim().length > 4) && ok;
+  if(!ok){ showToast('Please fill in the required fields.'); return; }
+
+  const submitBtn = document.getElementById('projectSubmitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+
+  const clientId = 'client_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  const record = {
+    id: clientId,
+    name: fields.name.value.trim(),
+    email: fields.email.value.trim(),
+    phone: fields.phone.value.trim(),
+    company: document.getElementById('p-company').value.trim(),
+    projectType: fields.type.value,
+    budget: fields.budget.value,
+    deadline: document.getElementById('p-deadline').value,
+    reference: document.getElementById('p-reference').value.trim(),
+    requirements: fields.requirements.value.trim(),
+    fileNames: Array.from(fileInput.files).map(f => f.name),
+    notes: document.getElementById('p-notes').value.trim(),
+    status: 'Design',
+    progress: 15,
+    milestones: [
+      { name:'Design Approval', amount:'Set on quote', paid:false },
+      { name:'Development', amount:'Set on quote', paid:false },
+      { name:'Final Delivery', amount:'Set on quote', paid:false },
+    ],
+    submittedAt: new Date().toISOString(),
+  };
+
+  try{
+    if(dbApi){
+      await dbApi.doc('projects/' + clientId).set(record);
+    }
+  }catch(err){
+    console.error('db write failed', err);
+  }
+  // always keep a local fallback so the demo works even without db access
+  try{
+    const local = JSON.parse(localStorage.getItem('OFF-SCRIPT-projects') || '{}');
+    local[clientId] = record;
+    localStorage.setItem('OFF-SCRIPT-projects', JSON.stringify(local));
+  }catch(err){}
+
+  setCurrentClientKey(clientId);
+  document.getElementById('startFormWrap').style.display = 'none';
+  document.getElementById('confirmWrap').style.display = 'block';
+  document.getElementById('confirmId').textContent = 'Reference: ' + clientId;
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Submit project request';
+});
+
+/* ============================================================
+   CLIENT DASHBOARD — reads the record back (db first, then
+   localStorage fallback) and renders status/progress/milestones
+============================================================ */
+async function getProjectRecord(id){
+  if(!id) return null;
+  if(dbApi){
+    try{
+      const doc = await dbApi.doc('projects/' + id).get();
+      if(doc) return doc;
+    }catch(e){}
+  }
+  try{
+    const local = JSON.parse(localStorage.getItem('OFF-SCRIPT-projects') || '{}');
+    return local[id] || null;
+  }catch(e){ return null; }
+}
+
+async function renderDashboard(){
+  const wrap = document.getElementById('dashboardContent');
+  wrap.innerHTML = `<div class="skeleton" style="height:200px; margin-bottom:24px;"></div>`;
+  const id = currentClientKey();
+  const record = await getProjectRecord(id);
+
+  if(!record){
+    document.getElementById('dashWelcome').textContent = 'No project yet';
+    wrap.innerHTML = `<div class="dash-card empty-state">
+      You haven't submitted a project request yet.<br><br>
+      <a href="#" class="btn btn-primary" onclick="showView('start')">Start a project</a>
+    </div>`;
+    return;
+  }
+
+  document.getElementById('dashWelcome').textContent = 'Welcome, ' + record.name.split(' ')[0];
+  const milestoneRows = record.milestones.map(m => `
+    <div class="milestone-row">
+      <span>${m.name}</span>
+      <span class="${m.paid ? 'pay-paid':'pay-pending'}">${m.amount} — ${m.paid ? 'Paid':'Pending'}</span>
+    </div>`).join('');
+
+  wrap.innerHTML = `
+    <div class="dash-grid">
+      <div>
+        <div class="dash-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <h3 style="margin:0;">${record.projectType}${record.company ? ' — ' + record.company : ''}</h3>
+            <span class="status-badge live">${record.status}</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:${record.progress}%"></div></div>
+          <p style="font-size:.82rem; color:var(--ink-faint);">${record.progress}% complete · Next milestone: ${record.milestones[0].name}</p>
+        </div>
+        <div class="dash-card">
+          <h3>Requirements on file</h3>
+          <p style="font-size:.88rem; color:var(--ink-dim); white-space:pre-wrap;">${record.requirements}</p>
+        </div>
+        <div class="dash-card">
+          <h3>Recent updates</h3>
+          <div class="milestone-row"><span>Request received</span><span style="color:var(--ink-faint);">${new Date(record.submittedAt).toLocaleDateString()}</span></div>
+          <div class="milestone-row"><span>Awaiting quote confirmation</span><span style="color:var(--ink-faint);">—</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="dash-card">
+          <h3>Payment summary</h3>
+          ${milestoneRows}
+        </div>
+        <div class="dash-card">
+          <h3>Files</h3>
+          ${record.fileNames && record.fileNames.length ? record.fileNames.map(f=>`<div class="milestone-row"><span>${f}</span><span class="tag-chip">Attached</span></div>`).join('') : '<p class="empty-state" style="padding:20px 0;">No files uploaded yet.</p>'}
+        </div>
+        <div class="dash-card">
+          <h3>Contact the team</h3>
+          <a href="mailto:hello@OFF-SCRIPT.studio" class="btn btn-ghost" style="width:100%; justify-content:center;">Message us</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   ADMIN — lists all submitted requests (demo: db first,
+   falls back to whatever is in this browser's localStorage)
+============================================================ */
+async function renderAdmin(){
+  const tbody = document.getElementById('adminTableBody');
+  tbody.innerHTML = `<tr><td colspan="5"><div class="skeleton" style="height:20px;"></div></td></tr>`;
+  let records = [];
+
+  if(dbApi){
+    try{
+      const snapshot = await dbApi.collection('projects').get();
+      if(snapshot && snapshot.docs) records = snapshot.docs.map(d => d.data ? d.data() : d);
+    }catch(e){}
+  }
+  if(records.length === 0){
+    try{
+      const local = JSON.parse(localStorage.getItem('OFF-SCRIPT-projects') || '{}');
+      records = Object.values(local);
+    }catch(e){}
+  }
+
+  if(records.length === 0){
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">No client requests yet — they'll appear here once someone submits the "Start a Project" form.</div></td></tr>`;
+    return;
+  }
+  records.sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+  tbody.innerHTML = records.map(r => `
+    <tr>
+      <td><strong>${r.name}</strong><br><span style="color:var(--ink-faint); font-size:.78rem;">${r.email}</span></td>
+      <td>${r.projectType}${r.company ? '<br><span style=\"color:var(--ink-faint); font-size:.78rem;\">' + r.company + '</span>' : ''}</td>
+      <td>${r.budget}</td>
+      <td><span class="tag-chip">${r.status}</span></td>
+      <td>${new Date(r.submittedAt).toLocaleDateString()}</td>
+    </tr>`).join('');
+}
+</script>
+</body>
+</html>

@@ -56,7 +56,8 @@
   <div class="auth-card">
     <p class="kicker" style="margin-bottom:12px;">Client area</p>
     <h1>Welcome back</h1>
-    <p class="sub">Sign in to track your project, milestones and payments.</p>
+    <p class="sub">Sign in using your email and Project ID to track your project.
+</p>
 
     <div class="demo-note">
       <b>Demo environment:</b> use <b>client@demo.studio</b> / <b>demo123</b>, or any account you register. No real authentication yet — connect your backend at the marked integration point in <b>js/forms.js</b>.
@@ -69,10 +70,17 @@
         <div class="field-error">Please enter a valid email.</div>
       </div>
       <div class="field" style="margin-bottom:22px;">
-        <label for="a-password">Password</label>
-        <input type="password" id="a-password" autocomplete="current-password" required>
-        <div class="field-error">Please enter your password.</div>
-      </div>
+    <label for="a-project-id">Project ID</label>
+    <input
+        type="text"
+        id="a-project-id"
+        placeholder="OFF-2026-1234"
+        required
+    >
+    <div class="field-error">
+        Please enter your Project ID.
+    </div>
+</div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; font-size:.82rem;">
         <a href="forgot-password.html" style="color:var(--ink-dim);">Forgot password?</a>
       </div>
@@ -86,7 +94,10 @@
 </main>
 
 <script src="js/config.js"></script>
+<script src="js/intro.js"></script>
 <script src="js/main.js"></script>
+<script src="js/interactions.js"></script>
+<script src="js/magic-cursor.js"></script>
 <script src="js/forms.js"></script>
 </body>
 </html>

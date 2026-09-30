@@ -75,15 +75,19 @@
     const dot = document.createElement('div'); dot.id = 'cursor-dot';
     const ring = document.createElement('div'); ring.id = 'cursor-ring';
     document.body.append(dot, ring);
-    let x=-100, y=-100, rx=-100, ry=-100, visible=false;
+    let x=-100, y=-100, rx=-100, ry=-100, visible=false, vel=0;
     document.addEventListener('mousemove', e => {
-      x = e.clientX; y = e.clientY;
+      const nx = e.clientX, ny = e.clientY;
+      const dx = nx - x, dy = ny - y;
+      if(visible){ vel = Math.min(Math.hypot(dx, dy), 40); }
+      x = nx; y = ny;
       if(!visible){ visible = true; dot.style.opacity = ring.style.opacity = 1; }
       dot.style.transform = 'translate(' + x + 'px,' + y + 'px) translate(-50%,-50%)';
     });
     (function loop(){
       rx += (x - rx) * .16; ry += (y - ry) * .16;
-      ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%)';
+      vel *= .9;
+      ring.style.transform = 'translate(' + rx + 'px,' + ry + 'px) translate(-50%,-50%) scale(var(--sx,1), var(--sy,1))';
       requestAnimationFrame(loop);
     })();
     const hoverSel = 'a, button, [role="button"], input, select, textarea, label';

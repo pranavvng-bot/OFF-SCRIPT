@@ -1,0 +1,23 @@
+{
+  "name": "off-script-backend",
+  "version": "1.0.0",
+  "description": "OFF-SCRIPT agency backend",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^5.0.0",
+    "nodemailer": "^10.0.10"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}

@@ -17,7 +17,9 @@ except the case-study `?p=` query param in some browsers.)
 
 ```
 /
-├── index.html              Homepage (hero, services, process, work, stats, team, pricing, FAQ)
+├── index.html              Homepage (split-screen hero: photo left, interactive
+│                           3D panel right · services · process · work · stats ·
+│                           team · pricing · FAQ)
 ├── about.html              Studio story, principles, stats, team preview
 ├── team.html               Team detail + jobs preview
 ├── services.html           Six services (expandable cards) + engagement models
@@ -48,12 +50,23 @@ except the case-study `?p=` query param in some browsers.)
 │   ├── config.js           ★ ALL editable content lives here
 │   ├── main.js             Runtime: preloader, cursor, nav, reveals, counters,
 │   │                       toasts, transitions, shared renderers
-│   ├── hero-canvas.js      Hero node-network (reduced-motion aware)
+│   ├── hero-3d.js          ★ Interactive 3D hero: 400-particle sculpture that
+│   │                       morphs between 5 forms — drag to rotate (inertia),
+│   │                       click/Space/HUD to morph, scroll tilts, hover spins.
+│   │                       Zero dependencies. Reduced-motion → static frame.
+│   ├── interactions.js     Site-wide layer: 3D tilt cards w/ glare, cursor
+│   │                       labels, nav text-scramble, velocity-skewed marquee,
+│   │                       ambient pointer spotlight, scroll-cue retirement
+│   ├── magic-cursor.js     ★ Ribbon cursor: the pointer leaves a glowing,
+│   │                       smooth neon-copper trail that visualizes its exact
+│   │                       path — tapered stroke, hot core, head bloom, embers.
+│   │                       Desktop fine-pointer only; reduced-motion disables it.
 │   ├── portfolio.js        Portfolio grid/list, filters, modal, case studies
 │   ├── forms.js            Validation, quick contact, multi-step intake, demo auth
 │   └── dashboard.js        Dashboard, payment, admin rendering
 │
 ├── favicon.svg · sitemap.xml · robots.txt
+├── img/hero.jpg            Split-hero photograph (swap freely — object-fit:cover)
 └── html.html / studio.html  ← original single-file versions (legacy, kept for reference)
 ```
 
@@ -95,8 +108,11 @@ The site runs fully client-side for preview. Search the code for
 
 - Dark theme is default; light theme via the ◐ toggle (persisted per browser).
   `prefers-color-scheme` is respected on first visit.
-- `prefers-reduced-motion` disables the preloader, cursor, canvas motion and
-  transitions; the hero canvas renders one static frame instead.
+- `prefers-reduced-motion` disables the preloader, cursor, 3D hero motion,
+  tilt/spotlight/scramble and transitions; the hero renders one static frame
+  instead. The 3D hero also pauses when off-screen or the tab is hidden.
+- Hero 3D controls: drag = rotate with inertia · click = next form ·
+  Space = next form · HUD arrows (bottom of hero) = switch forms.
 - The custom cursor activates only on fine-pointer devices.
 - Per-page SEO: titles, descriptions, Open Graph tags; JSON-LD on the homepage;
   sitemap/robots included. Client-area pages are `noindex` and disallowed in

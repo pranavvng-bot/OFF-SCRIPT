@@ -13,6 +13,77 @@
   }
 }
 
+/* ============================================================
+   THE OVERTURE — 5s cinematic intro
+   ============================================================ */
+#os-intro{
+  position:fixed; inset:0; z-index:4000; background:#0d0a06;
+  overflow:hidden;
+  animation:introFadeIn .6s ease;
+}
+@keyframes introFadeIn{from{opacity:0;} to{opacity:1;}}
+#os-intro.out{animation:introOut 1.3s cubic-bezier(.76,0,.24,1) forwards; pointer-events:none;}
+@keyframes introOut{
+  0%{clip-path:inset(0 0 0 0);}
+  100%{clip-path:inset(50% 0 50% 0); opacity:0;}
+}
+#os-intro-canvas{position:absolute; inset:0; width:100%; height:100%;}
+.intro-center{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:22px; text-align:center; padding:0 24px;
+}
+.intro-kicker{
+  font-family:var(--font-mono); font-size:.66rem; letter-spacing:.34em;
+  color:var(--ink-faint); text-transform:uppercase;
+  opacity:0; animation:introRise .9s var(--ease) .35s forwards;
+}
+.intro-word{
+  font-family:var(--font-display); font-weight:700;
+  font-size:clamp(2.6rem, 9vw, 6.4rem); letter-spacing:-.02em; line-height:1;
+  color:var(--ink); display:flex; align-items:baseline; gap:.18em;
+  text-shadow:0 0 60px rgba(210,154,91,.35);
+}
+.intro-word em{font-style:normal; color:var(--accent); font-weight:400;}
+.intro-word span{display:inline-block; opacity:0; transform:translateY(38px); filter:blur(10px);
+  animation:introWord 1s var(--ease) forwards;}
+.intro-word span:nth-child(1){animation-delay:.55s;}
+.intro-word span:nth-child(3){animation-delay:.75s;}
+.intro-word em{opacity:0; animation:introDash .7s var(--ease) 1.05s forwards;}
+@keyframes introWord{to{opacity:1; transform:translateY(0); filter:blur(0);}}
+@keyframes introDash{0%{opacity:0; transform:scaleX(0);} 100%{opacity:1; transform:scaleX(1);}}
+.intro-word em{display:inline-block; transform-origin:left;}
+.intro-sub{
+  font-family:var(--font-mono); font-size:.64rem; letter-spacing:.28em;
+  color:var(--accent); text-transform:uppercase;
+  opacity:0; animation:introRise .9s var(--ease) 1.35s forwards;
+}
+.intro-kicker, .intro-sub{animation-name:introRise;}
+@keyframes introRise{from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);}}
+
+.intro-bottom{
+  position:absolute; left:0; right:0; bottom:34px; padding:0 34px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.intro-track{height:2px; background:rgba(210,154,91,.16); position:relative; overflow:hidden; border-radius:2px;}
+.intro-fill{position:absolute; inset:0; background:linear-gradient(90deg, var(--accent), var(--accent-strong));
+  transform-origin:left; transform:scaleX(0);}
+.intro-meta{
+  display:flex; justify-content:space-between; align-items:center; gap:16px;
+  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em;
+  color:var(--ink-faint); text-transform:uppercase;
+}
+.intro-pct{color:var(--accent); min-width:34px; text-align:right;}
+.intro-skip{
+  background:none; border:none; color:var(--ink-dim); font-family:var(--font-mono);
+  font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; cursor:pointer;
+  padding:6px 10px; transition:color .25s ease;
+}
+.intro-skip:hover{color:var(--accent);}
+
+/* hold the page underneath until the overture clears */
+html.intro-lock{overflow:hidden;}
+html.intro-lock body:not(.loaded) #preloader{opacity:1;}
+
 /* ---------- preloader ---------- */
 #preloader{
   position:fixed; inset:0; z-index:3000; background:var(--bg);
@@ -52,14 +123,15 @@
 #cursor-ring{
   width:38px; height:38px; border:1px solid color-mix(in srgb, var(--accent) 60%, transparent);
   transform:translate(-50%,-50%) scale(1);
-  transition:opacity .3s ease, transform .25s ease, width .25s ease, height .25s ease, border-color .25s ease, background .25s ease;
+  transition:opacity .3s ease, width .25s ease, height .25s ease, border-color .25s ease, background .25s ease;
 }
 #cursor-ring.hovering{
   width:58px; height:58px;
   border-color:var(--accent);
   background:var(--accent-soft);
 }
-#cursor-ring.pressing{transform:translate(-50%,-50%) scale(.8);}
+#cursor-ring.pressing,
+#cursor-ring.magic-press{transform:translate(-50%,-50%) scale(calc(var(--sx,1) * .78), calc(var(--sy,1) * .78));}
 html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [role="button"]{cursor:none;}
 html.has-cursor input, html.has-cursor textarea, html.has-cursor select{cursor:auto;}
 
@@ -107,7 +179,118 @@ html.has-cursor input, html.has-cursor textarea, html.has-cursor select{cursor:a
 #page-veil.cover{transform:scaleY(1);}
 #page-veil.reveal{transform:scaleY(0); transform-origin:top;}
 
-/* ---------- hero text entrance ---------- */
+/* ============================================================
+   OFF-SCRIPT — PRO MOTION LAYER (3D hero + interactions)
+   ============================================================ */
+
+/* ---------- hero 3D canvas + HUD ---------- */
+.hero-stage{
+  position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none;
+}
+.hero-stage canvas{
+  width:100%; height:100%; display:block;
+  pointer-events:auto; touch-action:pan-y;
+}
+.hero-glow{
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(42% 55% at 76% 34%, var(--accent-soft), transparent 70%);
+}
+.hero-hud{
+  position:absolute; z-index:3; left:28px; right:28px; bottom:24px;
+  display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+  font-family:var(--font-mono); font-size:.68rem; letter-spacing:.12em;
+  color:var(--ink-faint); pointer-events:none;
+}
+.hero-hud .hud-left{display:flex; gap:18px; flex-wrap:wrap;}
+.hero-hud .hud-k{opacity:.7; margin-right:6px;}
+.hero-hud .hud-v{color:var(--ink); font-weight:500; min-width:52px; display:inline-block;}
+.hero-hud .hud-v[data-hud="sn"]{color:var(--accent);}
+.hero-hud .hud-right{display:flex; gap:8px; pointer-events:auto;}
+.hud-btn{
+  width:34px; height:34px; border-radius:50%; border:1px solid var(--line-strong);
+  background:color-mix(in srgb, var(--bg) 60%, transparent); color:var(--ink-dim);
+  font-size:.8rem; line-height:1; display:flex; align-items:center; justify-content:center;
+  transition:all .25s ease; backdrop-filter:blur(6px);
+}
+.hud-btn:hover{border-color:var(--accent); color:var(--accent); transform:scale(1.08);}
+.hud-btn:active{transform:scale(.94);}
+
+/* ---------- hero scroll cue ---------- */
+.scroll-cue{
+  position:absolute; left:50%; bottom:86px; z-index:3; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  font-family:var(--font-mono); font-size:.62rem; letter-spacing:.3em;
+  text-transform:uppercase; color:var(--ink-faint); pointer-events:none;
+  transition:opacity .5s ease, transform .5s var(--ease);
+}
+.scroll-cue .wheel{
+  width:20px; height:32px; border:1px solid var(--line-strong); border-radius:12px;
+  position:relative;
+}
+.scroll-cue .wheel::after{
+  content:''; position:absolute; left:50%; top:6px; width:2px; height:6px; margin-left:-1px;
+  border-radius:2px; background:var(--accent);
+  animation:wheelDot 1.8s var(--ease-io) infinite;
+}
+@keyframes wheelDot{
+  0%{transform:translateY(0); opacity:0;}
+  25%{opacity:1;}
+  70%{transform:translateY(10px); opacity:1;}
+  100%{transform:translateY(12px); opacity:0;}
+}
+.scroll-cue.gone{opacity:0; transform:translateX(-50%) translateY(10px);}
+
+/* ---------- 3D tilt cards + glare ---------- */
+.tilt{transform-style:preserve-3d; will-change:transform;}
+.tilt::after{
+  content:''; position:absolute; inset:0; pointer-events:none; opacity:0;
+  background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),
+             color-mix(in srgb, var(--accent) 16%, transparent), transparent 65%);
+  transition:opacity .35s ease;
+}
+.tilt:hover::after{opacity:1;}
+.tilt > *{transform:translateZ(0);}
+
+/* ---------- cursor label ---------- */
+#cursor-ring .cursor-label{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:.56rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink); opacity:0; transform:scale(.5);
+  transition:opacity .2s ease, transform .25s var(--ease);
+  pointer-events:none; white-space:nowrap;
+}
+#cursor-ring.has-label{
+  width:64px; height:64px; background:var(--accent);
+  border-color:var(--accent); mix-blend-mode:normal;
+}
+#cursor-ring.has-label .cursor-label{opacity:1; transform:scale(1); color:var(--accent-ink);}
+
+/* ---------- ambient spotlight ---------- */
+#os-spot{
+  position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0;
+  background:radial-gradient(560px circle at var(--sx,50%) var(--sy,30%),
+             color-mix(in srgb, var(--accent) 7%, transparent), transparent 60%);
+  transition:opacity .6s ease;
+}
+#os-spot.on{opacity:1;}
+
+/* ---------- magic cursor canvas — the ribbon ---------- */
+#os-magic{
+  position:fixed; inset:0; z-index:2400; pointer-events:none;
+  mix-blend-mode:screen;
+}
+:root[data-theme="light"] #os-magic{mix-blend-mode:normal;}
+
+/* ---------- button sheen sweep ---------- */
+.btn{position:relative; overflow:hidden;}
+.btn::before{
+  content:''; position:absolute; top:0; bottom:0; left:-40%; width:34%;
+  background:linear-gradient(105deg, transparent, rgba(255,255,255,.16), transparent);
+  transform:skewX(-18deg); transition:left .6s var(--ease);
+  pointer-events:none;
+}
+.btn:hover::before{left:120%;}
+.btn-ghost::before, .btn-ink::before{opacity:.5;}/* ---------- hero text entrance ---------- */
 .hero-eyebrow, .hero-sub, .hero-ctas, .hero-meta{
   opacity:0; transform:translateY(28px);
   transition:opacity .9s ease, transform .9s var(--ease);

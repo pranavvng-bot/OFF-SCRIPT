@@ -8,7 +8,7 @@
   const $$ = (s,c) => Array.from((c||document).querySelectorAll(s));
   const esc = OFFSCRIPT.esc;
   const PROJECTS = OFFSCRIPT.PROJECTS || [];
-  const COLORS = ['#8b7fff','#5fd4a0','#ff9f6b','#5fb9ff','#ff6b9d','#ffd166'];
+  const COLORS = ['#d29a5b','#a8c686','#c98a5e','#8fa5a3','#c47b58','#e6c98a'];
 
   function thumbSVG(idx, seedShift){
     const c = COLORS[(idx + (seedShift||0)) % COLORS.length];
@@ -31,8 +31,11 @@
     const f = filter || 'All';
     grid.innerHTML = PROJECTS.map((p,i) => {
       const hidden = (f !== 'All' && p.cat !== f) ? ' hidden-item' : '';
-      return '<article class="project-card pop' + hidden + '" data-idx="' + i + '" data-cat="' + esc(p.cat) + '" tabindex="0" role="button" aria-label="View ' + esc(p.name) + ' case study" style="animation-delay:' + (i*60) + 'ms">' +
-        '<div class="project-thumb">' + thumbSVG(i) + '</div>' +
+      const media = p.photo
+        ? '<img src="' + esc(p.photo) + '" alt="' + esc(p.name) + ' — project visual" loading="lazy" onerror="this.remove()">' + thumbSVG(i)
+        : thumbSVG(i);
+      return '<article class="project-card pop' + hidden + '" data-idx="' + i + '" data-cat="' + esc(p.cat) + '" tabindex="0" role="button" aria-label="View ' + esc(p.name) + ' case study" data-cursor="View" style="animation-delay:' + (i*60) + 'ms">' +
+        '<div class="project-thumb">' + media + '</div>' +
         '<div class="project-body">' +
           '<div class="project-cat">' + esc(p.cat) + ' — ' + esc(p.year) + '</div>' +
           '<h3>' + esc(p.name) + '</h3>' +
@@ -52,7 +55,7 @@
     const list = $('#workRows');
     if(!list) return;
     list.innerHTML = PROJECTS.map((p,i) =>
-      '<div class="work-row" data-idx="' + i + '" tabindex="0" role="link" aria-label="Open ' + esc(p.name) + ' case study">' +
+      '<div class="work-row" data-idx="' + i + '" tabindex="0" role="link" aria-label="Open ' + esc(p.name) + ' case study" data-cursor="Open">' +
         '<span class="idx">' + String(i+1).padStart(2,'0') + '</span>' +
         '<h3>' + esc(p.name) + '</h3>' +
         '<div class="meta"><span>' + esc(p.cat) + '</span>' + esc(p.stack) + '</div>' +
@@ -98,7 +101,8 @@
   function openModal(idx){
     if(!overlay) return;
     const p = PROJECTS[idx]; if(!p) return;
-    $('#modalThumb').innerHTML = thumbSVG(idx, 2);
+    $('#modalThumb').innerHTML = (p.photo
+      ? '<img src="' + esc(p.photo) + '" alt="' + esc(p.name) + ' — project visual" onerror="this.remove()">' : '') + thumbSVG(idx, 2);
     $('#modalCat').textContent = p.cat + ' — ' + p.year;
     $('#modalTitle').textContent = p.name;
     $('#modalDesc').textContent = p.desc;
@@ -141,7 +145,9 @@
     list.addEventListener('mouseover', e => {
       const row = e.target.closest('.work-row');
       if(!row) return;
-      prev.innerHTML = thumbSVG(+row.dataset.idx, 1);
+      const pj = PROJECTS[+row.dataset.idx];
+      prev.innerHTML = (pj && pj.photo
+        ? '<img src="' + esc(pj.photo) + '" alt="" onerror="this.remove()">' : '') + thumbSVG(+row.dataset.idx, 1);
       prev.classList.add('show');
     });
     list.addEventListener('mouseleave', () => prev.classList.remove('show'));
@@ -171,7 +177,8 @@
           '<div><span>Stack</span><strong>' + esc(p.stack) + '</strong></div>' +
           '<div><span>Duration</span><strong>' + esc(p.duration) + '</strong></div>' +
         '</div>' +
-        '<div class="case-visual reveal" data-drift="0.02">' + thumbSVG(idx, 3) + '</div>' +
+        '<div class="case-visual reveal" data-drift="0.02">' + (p.photo
+          ? '<img src="' + esc(p.photo) + '" alt="' + esc(p.name) + ' — project visual" onerror="this.remove()">' : '') + thumbSVG(idx, 3) + '</div>' +
       '</div></section>' +
 
       '<section class="case-section"><div class="wrap"><div class="cs-grid">' +

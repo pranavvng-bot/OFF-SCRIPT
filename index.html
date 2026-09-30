@@ -73,34 +73,44 @@
 
 <main id="main">
 
-<!-- ============================ HERO ============================ -->
-<section class="hero" style="min-height:100svh; display:flex; align-items:center; padding:calc(var(--nav-h) + 60px) 0 80px; position:relative; overflow:hidden;">
-  <div style="position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden;">
-    <canvas id="heroCanvas" aria-hidden="true" style="width:100%; height:100%; opacity:.55;"></canvas>
-  </div>
-  <div style="position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(46% 60% at 78% 30%, var(--accent-soft), transparent 70%);"></div>
-
-  <div class="wrap" style="position:relative; z-index:1; width:100%;">
-    <p class="kicker hero-eyebrow" style="margin-bottom:22px;">Web design & development studio — Coimbatore, IN</p>
-    <h1 class="hero-title" style="font-size:clamp(2.6rem, 7.2vw, 5.6rem); text-transform:uppercase; letter-spacing:-.02em; line-height:1.02; max-width:16ch;">
-      <span class="row"><span>We turn ideas into</span></span>
-      <span class="row"><span>digital experiences</span></span>
-      <span class="row"><span style="color:var(--ink-faint);">worth remembering.</span></span>
-    </h1>
-    <p class="hero-sub" style="margin-top:30px; color:var(--ink-dim); font-size:clamp(1rem, 1.8vw, 1.25rem); max-width:52ch;">
-      Four minds. One digital studio. We design and develop websites that make businesses impossible to ignore — no templates, no middle layer, no handoffs.
-    </p>
-    <div class="hero-ctas" style="margin-top:42px; display:flex; gap:14px; flex-wrap:wrap;">
-      <a href="start.html" class="btn btn-primary magnetic">Start a project <span class="arr">→</span></a>
-      <a href="work.html" class="btn btn-ghost magnetic">Explore our work <span class="arr">↗</span></a>
-    </div>
-    <div class="hero-meta" style="margin-top:64px; display:flex; gap:48px; flex-wrap:wrap; padding-top:28px; border-top:1px solid var(--line);">
-      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">4</strong>People, no middle layer</div>
-      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">06</strong>Services under one roof</div>
-      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">100%</strong>Code &amp; design, in-house</div>
-      <div style="font-size:.8rem; color:var(--ink-faint);"><strong style="display:block; font-family:var(--font-display); font-size:1.6rem; color:var(--ink);">2026</strong>Studio founded</div>
+<!-- ============================ HERO — split screen ============================ -->
+<section class="hero hero-split">
+  <div class="split-media">
+    <img src="img/hero.jpg" alt="Studio desk — sketches, notes and craft" fetchpriority="high">
+    <div class="split-media-tint" aria-hidden="true"></div>
+    <div class="split-caption" aria-hidden="true">
+      <span class="sc-line"></span>
+      <span class="sc-txt">EST. 2026 — MADE BY HAND, RUN BY FOUR</span>
     </div>
   </div>
+  <div class="split-panel">
+    <div class="hero-stage">
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    </div>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="split-content">
+      <p class="kicker hero-eyebrow">Web design & development studio — Coimbatore, IN</p>
+      <h1 class="hero-title">
+        <span class="row"><span>We turn ideas into</span></span>
+        <span class="row"><span>digital experiences</span></span>
+        <span class="row"><span style="color:var(--ink-faint);">worth remembering.</span></span>
+      </h1>
+      <p class="hero-sub">
+        Four minds. One digital studio. We design and develop websites that make businesses impossible to ignore — no templates, no middle layer, no handoffs.
+      </p>
+      <div class="hero-ctas">
+        <a href="start.html" class="btn btn-primary magnetic" data-cursor="Let's go">Start a project <span class="arr">→</span></a>
+        <a href="work.html" class="btn btn-ghost magnetic" data-cursor="Explore">Explore our work <span class="arr">↗</span></a>
+      </div>
+      <div class="hero-meta">
+        <div><strong>4</strong>People, no middle layer</div>
+        <div><strong>06</strong>Services under one roof</div>
+        <div><strong>100%</strong>Code &amp; design, in-house</div>
+        <div><strong>2026</strong>Studio founded</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true"><span class="wheel"></span><span>Scroll</span></div>
 </section>
 
 <!-- ============================ MARQUEE ============================ -->
@@ -327,8 +337,11 @@
 <div id="cursorPreview" class="cursor-preview" aria-hidden="true"></div>
 
 <script src="js/config.js"></script>
+<script src="js/intro.js"></script>
 <script src="js/main.js"></script>
-<script src="js/hero-canvas.js"></script>
+<script src="js/hero-3d.js"></script>
+<script src="js/interactions.js"></script>
+<script src="js/magic-cursor.js"></script>
 <script src="js/portfolio.js"></script>
 </body>
 </html>

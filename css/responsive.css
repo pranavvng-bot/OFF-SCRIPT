@@ -32,11 +32,20 @@
   .work-row .meta{display:none;}
   .job-row{grid-template-columns:1fr auto;}
   .job-row .type{display:none;}
+  .page-hero-media{aspect-ratio:16/8;}
 
   .footer-grid{grid-template-columns:1fr 1fr; margin-bottom:48px;}
   .footer-cta{padding:110px 0 80px;}
 
   .sec-index{display:none;}
+
+  /* split hero stacks: photo on top, panel below */
+  .hero-split{grid-template-columns:1fr; grid-template-rows:52svh auto;}
+  .split-media{min-height:52svh;}
+  .split-media::after{width:auto; height:1px; top:auto; right:0; left:0; bottom:0;}
+  .split-panel{padding:48px 24px 96px;}
+  .split-content .hero-meta{gap:26px;}
+  .hero-split .scroll-cue{left:24px; bottom:18px;}
 }
 
 @media (max-width: 720px){
@@ -64,6 +73,11 @@
   .footer-cta h2{font-size:3rem;}
 
   .form-shell{padding:30px 22px;}
+
+  /* hero HUD: keep only the morph arrows on phones */
+  .hero-hud .hud-left{display:none;}
+  .hero-hud{left:20px; right:20px; bottom:18px;}
+  .scroll-cue{bottom:70px;}
   .form-grid{grid-template-columns:1fr;}
   .choice-cards{grid-template-columns:1fr 1fr;}
   .steps-bar{flex-wrap:wrap; gap:14px 0;}
@@ -83,6 +97,9 @@
 
 @media (max-width: 480px){
   .choice-cards{grid-template-columns:1fr;}
+  .split-caption{display:none;}
+  .split-content .hero-meta{gap:20px;}
+  .split-panel{padding:42px 20px 84px;}
   .mobile-links a{font-size:2rem;}
   .footer-grid{grid-template-columns:1fr;}
   .footer-bottom{flex-direction:column; align-items:flex-start;}
